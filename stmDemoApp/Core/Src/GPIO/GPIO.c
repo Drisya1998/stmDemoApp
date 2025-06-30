@@ -26,14 +26,14 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.GPIOLEDSetClear.***************************************
+//*********************.GPIOLEDSet.********************************************
 //Purpose : To set a pin with HIGH
 //Inputs  : Port, Pin Number and LED status need to be set in the Pin.
 //Outputs : None
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-bool GPIOLEDSetClear(GPIO_TypeDef* gpioPort, uint16_t LEDPin, bool blLEDStatus)
+bool GPIOLEDSet(GPIO_TypeDef* gpioPort, uint16_t LEDPin, bool blLEDStatus)
 {
 	bool blFlag = FALSE;
 
