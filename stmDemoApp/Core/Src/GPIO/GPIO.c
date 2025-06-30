@@ -1,21 +1,19 @@
-//*******************************LED*******************************************
+//*******************************GPIO******************************************
 //Copyright (c) 2025 Trenser Technology Solutions
 //All Rights Reserved
 //*****************************************************************************
 //
-//File     : LED.c
-//Summary  : LED blinking
+//File     : GPIO.c
+//Summary  : GPIO Interface
 //Note     : None
 //Author   : Drisya P
-//Date     : 27/Jun/2025
+//Date     : 30/Jun/2025
 //
 //*****************************************************************************
 
 //*********************Include Files*******************************************
 #include <stdbool.h>
 #include <stdio.h>
-#include "LED.h"
-#include "AppMain.h"
 #include "main.h"
 
 //*********************Local Types*********************************************
@@ -26,36 +24,28 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.LEDBlink.**********************************************
-//Purpose : LED blinking
+//*********************.GPIOSet.**********************************************
+//Purpose : To set a pin with HIGH
 //Inputs  : None
 //Outputs : None
-//Return  : TRUE - LED Blinking success
-//			FALSE - failed
+//Return  : None
 //Notes   : None
 //*****************************************************************************
-bool LEDBlink()
+void GPIOSet()
 {
-	static bool sblLEDState = FALSE;
-	bool blFlag = FALSE;
-
-	if(sblLEDState == FALSE)
-	{
-		GPIOSet();
-		printf("LED ON\r\n");
-		sblLEDState = TRUE;
-		blFlag = TRUE;
-	}
-	else
-	{
-		GPIOClear();
-		printf("LED OFF\r\n");
-		sblLEDState = FALSE;
-		blFlag = TRUE;
-	}
-
-	HAL_Delay(100);
-
-	return blFlag;
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 }
+
+//*********************.GPIOClear.**********************************************
+//Purpose : To set a pin with LOW
+//Inputs  : None
+//Outputs : None
+//Return  : None
+//Notes   : None
+//*****************************************************************************
+void GPIOClear()
+{
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+}
+
 //EOF

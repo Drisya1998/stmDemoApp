@@ -1,0 +1,2 @@
+../Core/Src/GPIO/GPIO.c:34:6:GPIOSet	1
+../Core/Src/GPIO/GPIO.c:46:6:GPIOClear	1

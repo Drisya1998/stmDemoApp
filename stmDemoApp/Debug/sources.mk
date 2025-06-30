@@ -23,6 +23,7 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Src/AppMain \
+Core/Src/GPIO \
 Core/Src/LED \
 Core/Src \
 Core/Startup \
