@@ -19,8 +19,7 @@
 //***************************** Global Variables ******************************
 
 //***************************** Function Declaration **************************
-void GPiOSet();
-void GPIOClear();
+bool GPIOLEDSetClear(GPIO_TypeDef*, uint16_t, bool);
 
 //*********************** Inline Method Implementations ***********************
 

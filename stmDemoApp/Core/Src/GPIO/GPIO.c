@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "main.h"
+#include "AppMain.h"
 #include "GPIO.h"
 
 //*********************Local Types*********************************************
@@ -25,28 +26,24 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.GPIOSet.**********************************************
+//*********************.GPIOLEDSetClear.***************************************
 //Purpose : To set a pin with HIGH
-//Inputs  : None
+//Inputs  : Port, Pin Number and LED status need to be set in the Pin.
 //Outputs : None
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-void GPIOSet()
+bool GPIOLEDSetClear(GPIO_TypeDef* gpioPort, uint16_t LEDPin, bool blLEDStatus)
 {
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-}
+	bool blFlag = FALSE;
 
-//*********************.GPIOClear.**********************************************
-//Purpose : To set a pin with LOW
-//Inputs  : None
-//Outputs : None
-//Return  : None
-//Notes   : None
-//*****************************************************************************
-void GPIOClear()
-{
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	if(gpioPort != NULL)
+	{
+		HAL_GPIO_WritePin(gpioPort, LEDPin, blLEDStatus);
+		blFlag = TRUE;
+	}
+
+	return blFlag;
 }
 
 //EOF

@@ -41,19 +41,18 @@ bool LEDBlink()
 
 	if(sblLEDState == FALSE)
 	{
-		GPIOSet();
+		GPIOLEDSetClear(LED_PORT, LED_PIN, TRUE);
 		printf("LED ON\r\n");
 		sblLEDState = TRUE;
-		blFlag = TRUE;
 	}
 	else
 	{
-		GPIOClear();
+		GPIOLEDSetClear(LED_PORT, LED_PIN, FALSE);
 		printf("LED OFF\r\n");
 		sblLEDState = FALSE;
-		blFlag = TRUE;
 	}
 
+	blFlag = TRUE;
 	HAL_Delay(2000);
 
 	return blFlag;

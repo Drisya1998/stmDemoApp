@@ -1,2 +1,1 @@
-../Core/Src/GPIO/GPIO.c:35:6:GPIOSet	1
-../Core/Src/GPIO/GPIO.c:47:6:GPIOClear	1
+../Core/Src/GPIO/GPIO.c:36:6:GPIOLEDSetClear	2
