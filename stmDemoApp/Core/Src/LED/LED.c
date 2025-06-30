@@ -54,7 +54,7 @@ bool LEDBlink()
 		blFlag = TRUE;
 	}
 
-	HAL_Delay(100);
+	HAL_Delay(2000);
 
 	return blFlag;
 }

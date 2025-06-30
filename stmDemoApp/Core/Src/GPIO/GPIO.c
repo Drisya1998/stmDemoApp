@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "main.h"
+#include "GPIO.h"
 
 //*********************Local Types*********************************************
 
