@@ -4,7 +4,7 @@
 //*****************************************************************************
 //
 //File     : LED.c
-//Summary  : LED blinking
+//Summary  : LED blinking on STM32 in GPIOA with delay of 1 second
 //Note     : None
 //Author   : Drisya P
 //Date     : 27/Jun/2025
@@ -17,6 +17,7 @@
 #include "LED.h"
 #include "AppMain.h"
 #include "main.h"
+#include "GPIO.h"
 
 //*********************Local Types*********************************************
 
@@ -30,29 +31,30 @@
 //Purpose : LED blinking
 //Inputs  : None
 //Outputs : None
-//Return  : TRUE - LED Blinking success
-//			FALSE - failed
+//Return  : TRUE - LED Blinking success, FALSE - failed
 //Notes   : None
 //*****************************************************************************
 bool LEDBlink()
 {
 	static bool sblLEDState = FALSE;
 	bool blFlag = FALSE;
+	PORT_TYPE port = PORT_A;
+	PIN_NUMBER pin = PIN_5;
 
 	if(sblLEDState == FALSE)
 	{
-		blFlag = GPIOLEDSet(LED_PORT, LED_PIN, TRUE);
+		blFlag = GPIOLEDSet(port, pin, TRUE);
 		printf("LED ON\r\n");
 		sblLEDState = TRUE;
 	}
 	else
 	{
-		blFlag = GPIOLEDSet(LED_PORT, LED_PIN, FALSE);
+		blFlag = GPIOLEDSet(port, pin, FALSE);
 		printf("LED OFF\r\n");
 		sblLEDState = FALSE;
 	}
 
-	HAL_Delay(2000);
+	Delay(1000);
 
 	return blFlag;
 }

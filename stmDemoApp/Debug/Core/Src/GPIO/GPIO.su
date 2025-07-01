@@ -1,1 +1,2 @@
-../Core/Src/GPIO/GPIO.c:36:6:GPIOLEDSet	24	static
+../Core/Src/GPIO/GPIO.c:36:6:GPIOLEDSet	32	static
+../Core/Src/GPIO/GPIO.c:83:6:Delay	16	static

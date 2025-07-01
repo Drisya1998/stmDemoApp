@@ -33,17 +33,56 @@
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-bool GPIOLEDSet(GPIO_TypeDef* gpioPort, uint16_t LEDPin, bool blLEDStatus)
+bool GPIOLEDSet(PORT_TYPE LEDPort, PIN_NUMBER LEDPin, bool blLEDStatus)
 {
 	bool blFlag = FALSE;
+	GPIO_TypeDef* gpioPort = NULL;
+	uint32_t gpioPin = 1;
+	uint8 ucIndex = 0;
+
+	switch(LEDPort)
+	{
+		case PORT_A:
+			gpioPort = GPIOA;
+			break;
+		case PORT_B:
+			gpioPort = GPIOB;
+			break;
+		case PORT_C:
+			gpioPort = GPIOC;
+			break;
+		case PORT_D:
+			gpioPort = GPIOD;
+			break;
+	}
+
+	for(ucIndex = 0; ucIndex<16; ucIndex++)
+	{
+		if(LEDPin == ucIndex)
+		{
+			gpioPin = gpioPin << LEDPin;
+		}
+	}
 
 	if(gpioPort != NULL)
 	{
-		HAL_GPIO_WritePin(gpioPort, LEDPin, blLEDStatus);
+		HAL_GPIO_WritePin(gpioPort, gpioPin, blLEDStatus);
 		blFlag = TRUE;
 	}
 
 	return blFlag;
+}
+
+//*********************.Delay.********************************************
+//Purpose : To set delay on LED Blinking
+//Inputs  : delay - delay in milliseconds
+//Outputs : None
+//Return  : None
+//Notes   : None
+//*****************************************************************************
+void Delay(uint32_t delay)
+{
+	HAL_Delay(delay);
 }
 
 //EOF
