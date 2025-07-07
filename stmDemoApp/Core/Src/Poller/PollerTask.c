@@ -1,0 +1,97 @@
+//*******************************PollerTask************************************
+//Copyright (c) 2025 Trenser Technology Solutions
+//All Rights Reserved
+//*****************************************************************************
+//
+//File     : PollerTask.c
+//Summary  : Infinitely check the button press and send the request to Reciever
+//			 Task and handles the request data
+//Note     : None
+//Author   : Drisya P
+//Date     : 03/Jul/2025
+//
+//*****************************************************************************
+
+//*********************Include Files*******************************************
+#include <stdio.h>
+#include "stdbool.h"
+#include "PollerTask.h"
+#include "GPIO.h"
+#include "OSInterface.h"
+#include "AppMain.h"
+
+//*********************Local Types*********************************************
+
+//*********************Local Constants*****************************************
+
+//*********************Local Variables*****************************************
+static uint32 ulUIdCounter = 0;
+
+//*********************Local Functions*****************************************
+static bool PollerTaskProcessRequest(REQUEST_MSG*);
+
+//*********************.PollerTask.********************************************
+//Purpose :	Infinitely check the button press and send the request to Reciever
+//			Task to toggle the LED
+//Inputs  : None
+//Outputs : None
+//Return  : None
+//Notes   : None
+//*****************************************************************************
+void PollerTask()
+{
+	REQUEST_MSG stReqMsg = {0, 0, 0};
+	ACK_MSG stAckMsg = {0, 0, 0, 0};
+
+	if(PollerToRecieverMsgQInit(sizeof(stReqMsg)))
+	{
+		while(1)
+		{
+			if(GPIOReadButtonPress())
+			{
+				printf("\nButton Pressed\r\n");
+				if(PollerTaskProcessRequest(&stReqMsg))
+				{
+					printf("Request Processed\r\n");
+					if(MessageSendToReceiver(stReqMsg))
+					{
+						Delay(DELAY_300);
+					}
+
+					if(MessageRcvFromReceiver(&stAckMsg))
+					{
+						printf("Poller: ACKUID=%lu, CMD=0x%02X, STATE=0x%02X, DATA=0x%08lX\r\n\n",
+								stAckMsg.ulUId, stAckMsg.ucCmd, stAckMsg.ucState, stAckMsg.ulData);
+
+					}
+				}
+			}
+
+			Delay(DELAY_100);
+		}
+	}
+}
+
+//*********************.PollerTaskProcessRequest.********************************************
+//Purpose :	Build the Request Message
+//Inputs  : None
+//Outputs : None
+//Return  : TRUE - Request Message built, FALSE - error
+//Notes   : None
+//*****************************************************************************
+bool PollerTaskProcessRequest(REQUEST_MSG* stReqMsg)
+{
+	bool blFlag = FALSE;
+
+	if(stReqMsg != NULL)
+	{
+		stReqMsg->ulUId = ++ulUIdCounter;
+		stReqMsg->ucCmd = SET_CMD;
+		stReqMsg->ulData = DATA;
+		blFlag = TRUE;
+	}
+
+	return blFlag;
+}
+
+//EOF

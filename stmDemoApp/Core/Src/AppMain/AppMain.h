@@ -12,20 +12,55 @@
 #define INC_APPMAIN_H_
 
 //******************************* Include Files *******************************
+#include "stdbool.h"
 
 //******************************* Global Types ********************************
 typedef unsigned short uint16;
 typedef signed char int8;
 typedef unsigned char uint8;
+typedef unsigned long uint32;
+
+typedef struct _TASKS_
+{
+	uint8 *pucTaskName;
+	uint32 ulStackSize;
+	uint8 ucPriority;
+	void (*pTaskFunc)(void *);
+}TASKS;
+
+typedef struct _REQUEST_MSG_
+{
+    uint32 ulUId;
+    uint8 ucCmd;
+    uint32 ulData;
+}REQUEST_MSG;
+
+typedef struct _ACK_MSG_
+{
+    uint32 ulUId;
+    uint8 ucCmd;
+    uint8 ucState;
+    uint32 ulData;
+}ACK_MSG;
 
 //***************************** Global Constants ******************************
 #define TRUE                1
 #define FALSE               0
+#define TASKS_MAX_SIZE		2
+#define STACK_SIZE			256 * 4
+#define THREAD_PRIORITY		24
+#define SET_CMD				0x02
+#define GET_CMD				0x01
+#define ACK_CMD				0x00
+#define DELAY_300			300
+#define DELAY_100			100
 
 //***************************** Global Variables ******************************
+extern uint8 ucLedStatus;
 
 //***************************** Function Declaration **************************
 void AppMain();
+bool TaskInit();
 
 //*********************** Inline Method Implementations ***********************
 

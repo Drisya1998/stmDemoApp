@@ -1,2 +1,3 @@
 ../Core/Src/GPIO/GPIO.c:36:6:GPIOLEDSet	32	static
-../Core/Src/GPIO/GPIO.c:83:6:Delay	16	static
+../Core/Src/GPIO/GPIO.c:83:6:GPIOReadButtonPress	16	static
+../Core/Src/GPIO/GPIO.c:102:6:GPIODelay	16	static

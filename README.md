@@ -11,7 +11,7 @@ Build and Run in STM32 using STM32CubeIDE platform.
 ### Build 
 In STM32CubeIDE , 
 stmDemoApp.ioc file need to edit 
-Set USART2_Tx AND USART2_Rx Pins . GPIO_Input and GPIO_OutPut Pins.
+Set USART2_Tx AND USART2_Rx Pins .Set GPIO_Input and GPIO_OutPut Pins.
 
 In Project -> clean Build
 Build Project

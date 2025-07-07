@@ -73,14 +73,33 @@ bool GPIOLEDSet(PORT_TYPE LEDPort, PIN_NUMBER LEDPin, bool blLEDStatus)
 	return blFlag;
 }
 
-//*********************.Delay.********************************************
+//*********************.GPIOReadButtonPress.***************************************
+//Purpose : To Read the Button press
+//Inputs  : None
+//Outputs : None
+//Return  : TRUE - Button Pressed , FALSE - Button Not pressed
+//Notes   : None
+//*****************************************************************************
+bool GPIOReadButtonPress()
+{
+	bool blFlag = FALSE;
+
+	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET)
+	{
+		blFlag = TRUE;
+	}
+
+	return blFlag;
+}
+
+//*********************.GPIODelay.************************************************
 //Purpose : To set delay on LED Blinking
 //Inputs  : delay - delay in milliseconds
 //Outputs : None
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-void Delay(uint32_t delay)
+void GPIODelay(uint32 delay)
 {
 	HAL_Delay(delay);
 }

@@ -11,6 +11,7 @@
 #ifndef INC_GPIO_H_
 #define INC_GPIO_H_
 //******************************* Include Files *******************************
+#include "AppMain.h"
 
 //******************************* Global Types ********************************
 typedef enum{
@@ -45,7 +46,8 @@ typedef enum{
 
 //***************************** Function Declaration **************************
 bool GPIOLEDSet(PORT_TYPE, PIN_NUMBER, bool);
-void Delay();
+bool GPIOReadButtonPress();
+void GPIODelay(uint32);
 
 //*********************** Inline Method Implementations ***********************
 

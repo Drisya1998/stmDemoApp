@@ -54,7 +54,7 @@ bool LEDBlink()
 		sblLEDState = FALSE;
 	}
 
-	Delay(1000);
+	GPIODelay(1000);
 
 	return blFlag;
 }
