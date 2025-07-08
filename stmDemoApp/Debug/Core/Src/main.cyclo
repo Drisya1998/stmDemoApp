@@ -5,3 +5,4 @@
 ../Core/Src/main.c:274:6:StartDefaultTask	1
 ../Core/Src/main.c:289:6:Error_Handler	1
 ../Core/Src/main.c:316:5:_write	1
+../Core/Src/main.c:322:5:__io_putchar	1

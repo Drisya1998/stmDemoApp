@@ -5,13 +5,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Core/Src/OS/OSInterface.c 
+../Core/Src/OS/osMsgq.c \
+../Core/Src/OS/osTask.c 
 
 OBJS += \
-./Core/Src/OS/OSInterface.o 
+./Core/Src/OS/osMsgq.o \
+./Core/Src/OS/osTask.o 
 
 C_DEPS += \
-./Core/Src/OS/OSInterface.d 
+./Core/Src/OS/osMsgq.d \
+./Core/Src/OS/osTask.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +24,7 @@ Core/Src/OS/%.o Core/Src/OS/%.su Core/Src/OS/%.cyclo: ../Core/Src/OS/%.c Core/Sr
 clean: clean-Core-2f-Src-2f-OS
 
 clean-Core-2f-Src-2f-OS:
-	-$(RM) ./Core/Src/OS/OSInterface.cyclo ./Core/Src/OS/OSInterface.d ./Core/Src/OS/OSInterface.o ./Core/Src/OS/OSInterface.su
+	-$(RM) ./Core/Src/OS/osMsgq.cyclo ./Core/Src/OS/osMsgq.d ./Core/Src/OS/osMsgq.o ./Core/Src/OS/osMsgq.su ./Core/Src/OS/osTask.cyclo ./Core/Src/OS/osTask.d ./Core/Src/OS/osTask.o ./Core/Src/OS/osTask.su
 
 .PHONY: clean-Core-2f-Src-2f-OS
 

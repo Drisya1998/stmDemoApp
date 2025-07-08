@@ -1,2 +1,1 @@
-../Core/Src/AppMain/AppMain.c:42:6:AppMain	16	static
-../Core/Src/AppMain/AppMain.c:68:6:TaskInit	40	static
+../Core/Src/AppMain/AppMain.c:35:6:AppMain	16	static

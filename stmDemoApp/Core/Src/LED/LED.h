@@ -19,7 +19,7 @@
 //***************************** Global Variables ******************************
 
 //***************************** Function Declaration **************************
-bool LEDBlink();
+bool LEDToggle();
 
 //*********************** Inline Method Implementations ***********************
 

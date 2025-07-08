@@ -1,37 +1,42 @@
-//**************************** RecieverTask ***********************************
+//**************************** OSInterface ***************************************
 // Copyright (c) 2025 Trenser Technology Solutions
 // All Rights Reserved
 //*****************************************************************************
 //
-// Summary : RecieverTask header File
+// Summary : OSInterface header File
 // Note    : Added Macros
 //
 //*****************************************************************************
 
-#ifndef INC_RECIEVER_TASK_H_
-#define INC_RECIEVER_TASK_H_
+#ifndef INC_OS_INTERFACE_H_
+#define INC_OS_INTERFACE_H_
 
 //******************************* Include Files *******************************
-
+#include "cmsis_os2.h"
+#include "AppMain.h"
+#include "stdbool.h"
 //******************************* Global Types ********************************
+typedef struct _TASKS_
+{
+	uint8 *pucTaskName;
+	uint32 ulStackSize;
+	uint8 ucPriority;
+	void (*pTaskFunc)(void *);
+}TASKS;
 
 //***************************** Global Constants ******************************
-#define ACK_STATUS_OK 		0x00
-#define ACK_STAUS_ERROR		0x01
-#define ACK_ERROR_DATA		0xFFFFFFFF
-#define MASK				0x00000001
-
-typedef enum{
-	CMD_ACK,
-	CMD_GET,
-	CMD_SET
-}CMD_TYPE;
 
 //***************************** Global Variables ******************************
+extern osMutexId_t uartMutex;
 
 //***************************** Function Declaration **************************
-void RecieverTask();
+bool TaskInit();
+bool osTaskCreate();
+/*bool CreateUARTMutex();
+bool UARTMutexAcquire();
+bool UARTMutexRelease();*/
+void osTaskDelay(uint32);
 
 //*********************** Inline Method Implementations ***********************
 
-#endif /* INC_RECIEVER_TASK_H_ */
+#endif /* INC_OS_INTERFACE_H_ */

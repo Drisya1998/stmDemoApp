@@ -1,37 +1,39 @@
-//**************************** RecieverTask ***********************************
+//**************************** osMsgq *****************************************
 // Copyright (c) 2025 Trenser Technology Solutions
 // All Rights Reserved
 //*****************************************************************************
 //
-// Summary : RecieverTask header File
+// Summary : osMsgq header File
 // Note    : Added Macros
 //
 //*****************************************************************************
 
-#ifndef INC_RECIEVER_TASK_H_
-#define INC_RECIEVER_TASK_H_
+#ifndef INC_OS_MSGQ_H_
+#define INC_OS_MSGQ_H_
 
 //******************************* Include Files *******************************
+#include "cmsis_os2.h"
+#include "AppMain.h"
+#include "stdbool.h"
 
 //******************************* Global Types ********************************
 
 //***************************** Global Constants ******************************
-#define ACK_STATUS_OK 		0x00
-#define ACK_STAUS_ERROR		0x01
-#define ACK_ERROR_DATA		0xFFFFFFFF
-#define MASK				0x00000001
-
-typedef enum{
-	CMD_ACK,
-	CMD_GET,
-	CMD_SET
-}CMD_TYPE;
+#define MSG_COUNT			5
+#define MSG_PRIORITY		0
 
 //***************************** Global Variables ******************************
+extern osMessageQueueId_t PollerToReceiverId;
+extern osMessageQueueId_t ReceiverToPollerId;
 
 //***************************** Function Declaration **************************
-void RecieverTask();
+bool osMsgqPollerToRecieverInit();
+bool osMsgqRecieverToPollerInit();
+bool osMsgqMessageSendToReceiver(REQUEST_MSG);
+bool osMsgqMessageRcvFromPoller(REQUEST_MSG*);
+bool osMsgqMessageSendToPoller(ACK_MSG);
+bool osMsgqMessageRcvFromReceiver(ACK_MSG*);
 
 //*********************** Inline Method Implementations ***********************
 
-#endif /* INC_RECIEVER_TASK_H_ */
+#endif /* INC_OS_MSGQ_H_ */

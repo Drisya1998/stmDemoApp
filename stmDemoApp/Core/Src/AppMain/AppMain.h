@@ -20,14 +20,6 @@ typedef signed char int8;
 typedef unsigned char uint8;
 typedef unsigned long uint32;
 
-typedef struct _TASKS_
-{
-	uint8 *pucTaskName;
-	uint32 ulStackSize;
-	uint8 ucPriority;
-	void (*pTaskFunc)(void *);
-}TASKS;
-
 typedef struct _REQUEST_MSG_
 {
     uint32 ulUId;
@@ -60,7 +52,6 @@ extern uint8 ucLedStatus;
 
 //***************************** Function Declaration **************************
 void AppMain();
-bool TaskInit();
 
 //*********************** Inline Method Implementations ***********************
 

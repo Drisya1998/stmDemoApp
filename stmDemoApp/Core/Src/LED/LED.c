@@ -34,7 +34,7 @@
 //Return  : TRUE - LED Blinking success, FALSE - failed
 //Notes   : None
 //*****************************************************************************
-bool LEDBlink()
+bool LEDToggle()
 {
 	static bool sblLEDState = FALSE;
 	bool blFlag = FALSE;
@@ -53,8 +53,6 @@ bool LEDBlink()
 		printf("LED OFF\r\n");
 		sblLEDState = FALSE;
 	}
-
-	GPIODelay(1000);
 
 	return blFlag;
 }

@@ -1,5 +1,5 @@
-../Core/Src/Reciever/RecieverTask.c:44:6:RecieverTask	40	static
-../Core/Src/Reciever/RecieverTask.c:82:13:ReceiverTaskSetAckMsg	32	static
+../Core/Src/Reciever/RecieverTask.c:45:6:RecieverTask	40	static
+../Core/Src/Reciever/RecieverTask.c:83:13:ReceiverTaskSetAckMsg	24	static
 ../Core/Src/Reciever/RecieverTask.c:107:6:RecieverTaskProcessRequest	24	static
 ../Core/Src/Reciever/RecieverTask.c:148:6:RecieverTaskProcessUID	24	static
 ../Core/Src/Reciever/RecieverTask.c:168:6:RecieverTaskProcessCMD	24	static

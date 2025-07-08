@@ -13,11 +13,12 @@
 //*****************************************************************************
 
 //*********************Include Files*******************************************
+#include "osMsgq.h"
+#include "osTask.h"
 #include <stdio.h>
 #include "stdbool.h"
 #include "PollerTask.h"
 #include "GPIO.h"
-#include "OSInterface.h"
 #include "AppMain.h"
 
 //*********************Local Types*********************************************
@@ -26,9 +27,11 @@
 
 //*********************Local Variables*****************************************
 static uint32 ulUIdCounter = 0;
+uint32 ulDATA = 0x00000000;
+uint32 ulMASK = 0x00000001;
 
 //*********************Local Functions*****************************************
-static bool PollerTaskProcessRequest(REQUEST_MSG*);
+static bool PollerTaskBuildRequest(REQUEST_MSG*);
 
 //*********************.PollerTask.********************************************
 //Purpose :	Infinitely check the button press and send the request to Reciever
@@ -43,43 +46,47 @@ void PollerTask()
 	REQUEST_MSG stReqMsg = {0, 0, 0};
 	ACK_MSG stAckMsg = {0, 0, 0, 0};
 
-	if(PollerToRecieverMsgQInit(sizeof(stReqMsg)))
+	if(osMsgqPollerToRecieverInit(sizeof(stReqMsg)))
 	{
 		while(1)
 		{
 			if(GPIOReadButtonPress())
 			{
 				printf("\nButton Pressed\r\n");
-				if(PollerTaskProcessRequest(&stReqMsg))
+
+				if(PollerTaskBuildRequest(&stReqMsg))
 				{
 					printf("Request Processed\r\n");
-					if(MessageSendToReceiver(stReqMsg))
+
+					if(osMsgqMessageSendToReceiver(stReqMsg))
 					{
-						Delay(DELAY_300);
+						osTaskDelay(DELAY_300);
 					}
 
-					if(MessageRcvFromReceiver(&stAckMsg))
+					if(osMsgqMessageRcvFromReceiver(&stAckMsg))
 					{
-						printf("Poller: ACKUID=%lu, CMD=0x%02X, STATE=0x%02X, DATA=0x%08lX\r\n\n",
-								stAckMsg.ulUId, stAckMsg.ucCmd, stAckMsg.ucState, stAckMsg.ulData);
+						printf("Poller: ACKUID=%lu, CMD=0x%02X, STATE=0x%02X, \
+								DATA=0x%08lX\r\n\n",
+								stAckMsg.ulUId, stAckMsg.ucCmd,
+								stAckMsg.ucState, stAckMsg.ulData);
 
 					}
 				}
 			}
 
-			Delay(DELAY_100);
+			osTaskDelay(DELAY_100);
 		}
 	}
 }
 
-//*********************.PollerTaskProcessRequest.********************************************
+//*********************.PollerTaskProcessRequest.******************************
 //Purpose :	Build the Request Message
 //Inputs  : None
 //Outputs : None
 //Return  : TRUE - Request Message built, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool PollerTaskProcessRequest(REQUEST_MSG* stReqMsg)
+bool PollerTaskBuildRequest(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 
@@ -87,7 +94,8 @@ bool PollerTaskProcessRequest(REQUEST_MSG* stReqMsg)
 	{
 		stReqMsg->ulUId = ++ulUIdCounter;
 		stReqMsg->ucCmd = SET_CMD;
-		stReqMsg->ulData = DATA;
+		ulDATA = ulDATA ^ ulMASK;
+		stReqMsg->ulData = ulDATA;
 		blFlag = TRUE;
 	}
 

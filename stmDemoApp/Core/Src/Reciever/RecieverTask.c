@@ -12,10 +12,11 @@
 //*****************************************************************************
 
 //*********************Include Files*******************************************
+#include "osMsgq.h"
+#include "osTask.h"
 #include <stdio.h>
 #include "stdbool.h"
 #include "RecieverTask.h"
-#include "OSInterface.h"
 #include "LED.h"
 #include "AppMain.h"
 
@@ -24,11 +25,11 @@
 //*********************Local Constants*****************************************
 
 //*********************Local Variables*****************************************
-static uint32 ulUId = 0;
-static uint32 ulData = ACK_DATA;
+static uint32 sgulUId = 0;
+static uint32 sgulData = ACK_ERROR_DATA;
 
 //*********************Local Functions*****************************************
-static bool ReceiverTaskSetAckMsg(uint32, ACK_MSG*, uint8);
+static bool ReceiverTaskSetAckMsg(ACK_MSG*, uint8);
 static bool RecieverTaskProcessRequest(REQUEST_MSG*);
 static bool RecieverTaskProcessUID(REQUEST_MSG*);
 static bool RecieverTaskProcessCMD(REQUEST_MSG*);
@@ -48,22 +49,22 @@ void RecieverTask()
 	bool blFlag = FALSE;
 	uint8 ucStatus = 0;
 
-	if(RecieverToPollerMsgQInit(sizeof(stAckMsg)))
+	if(osMsgqRecieverToPollerInit(sizeof(stAckMsg)))
 	{
 		while(1)
 		{
-			if(MessageRcvFromPoller(&stReqMsg))
+			if(osMsgqMessageRcvFromPoller(&stReqMsg))
 			{
-				printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n", stReqMsg.ulUId,
-														stReqMsg.ucCmd, stReqMsg.ulData);
+				printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
+						stReqMsg.ulUId, stReqMsg.ucCmd, stReqMsg.ulData);
 				blFlag = RecieverTaskProcessRequest(&stReqMsg);
 				ucStatus = (blFlag != FALSE) ? ACK_STATUS_OK : ACK_STAUS_ERROR;
 
-				if(ReceiverTaskSetAckMsg(ulUId, &stAckMsg, ucStatus))
+				if(ReceiverTaskSetAckMsg(&stAckMsg, ucStatus))
 				{
-					if(MessageSendToPoller(stAckMsg))
+					if(osMsgqMessageSendToPoller(stAckMsg))
 					{
-						Delay(DELAY_100);
+						osTaskDelay(DELAY_100);
 					}
 				}
 			}
@@ -79,17 +80,16 @@ void RecieverTask()
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-static bool ReceiverTaskSetAckMsg(uint32 ulUId, ACK_MSG* stAckMsg,
-															uint8 ucState)
+static bool ReceiverTaskSetAckMsg(ACK_MSG* stAckMsg,uint8 ucState)
 {
 	bool blFlag = FALSE;
 	CMD_TYPE cmd = CMD_ACK;
 
 	if(stAckMsg != NULL)
 	{
-		stAckMsg->ulUId = ulUId;
+		stAckMsg->ulUId = sgulUId;
 		stAckMsg->ucCmd = cmd;
-		stAckMsg->ulData = ulData;
+		stAckMsg->ulData = sgulData;
 		stAckMsg->ucState = ucState;
 		blFlag = TRUE;
 	}
@@ -120,12 +120,12 @@ bool RecieverTaskProcessRequest(REQUEST_MSG* stReqMsg)
 			break;
 		}
 
-		if(!RecieverTaskProcessCMD(stReqMsg))
+		if(!RecieverTaskProcessDATA(stReqMsg))
 		{
 			break;
 		}
 
-		if(!RecieverTaskProcessDATA(stReqMsg))
+		if(!RecieverTaskProcessCMD(stReqMsg))
 		{
 			break;
 		}
@@ -151,7 +151,7 @@ bool RecieverTaskProcessUID(REQUEST_MSG* stReqMsg)
 
 	if(stReqMsg != NULL)
 	{
-		ulUId =  stReqMsg->ulUId;
+		sgulUId =  stReqMsg->ulUId;
 		blFlag = TRUE;
 	}
 
@@ -174,7 +174,7 @@ bool RecieverTaskProcessCMD(REQUEST_MSG* stReqMsg)
 		switch(stReqMsg->ucCmd)
 		{
 			case CMD_SET:
-				if(LEDBlink())
+				if(LEDToggle())
 				{
 					blFlag = TRUE;
 				}
@@ -207,7 +207,7 @@ bool RecieverTaskProcessDATA(REQUEST_MSG* stReqMsg)
 
 	if(stReqMsg != NULL)
 	{
-		ulData = stReqMsg->ulData;
+		sgulData = stReqMsg->ulData;
 		blFlag = TRUE;
 	}
 
