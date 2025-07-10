@@ -13,8 +13,9 @@
 
 //******************************* Include Files *******************************
 #include "cmsis_os2.h"
-#include "AppMain.h"
 #include "stdbool.h"
+#include "osTask.h"
+#include "WatchDogHandler.h"
 
 //******************************* Global Types ********************************
 
@@ -25,14 +26,18 @@
 //***************************** Global Variables ******************************
 extern osMessageQueueId_t PollerToReceiverId;
 extern osMessageQueueId_t ReceiverToPollerId;
+extern osMessageQueueId_t WatchdogQueueId;
 
 //***************************** Function Declaration **************************
-bool osMsgqPollerToRecieverInit();
-bool osMsgqRecieverToPollerInit();
+bool osMsgqPollerToRecieverInit(uint32);
+bool osMsgqRecieverToPollerInit(uint32);
 bool osMsgqMessageSendToReceiver(REQUEST_MSG);
 bool osMsgqMessageRcvFromPoller(REQUEST_MSG*);
 bool osMsgqMessageSendToPoller(ACK_MSG);
 bool osMsgqMessageRcvFromReceiver(ACK_MSG*);
+bool osMsgqSendToWatchdog(WATCHDOG_EVENT);
+bool osMsgqRcvFromWatchdog(WATCHDOG_EVENT*);
+bool osMsgqWatchdogInit(uint32);
 
 //*********************** Inline Method Implementations ***********************
 

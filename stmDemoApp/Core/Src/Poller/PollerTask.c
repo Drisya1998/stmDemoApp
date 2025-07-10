@@ -16,10 +16,11 @@
 #include "osMsgq.h"
 #include "osTask.h"
 #include <stdio.h>
-#include "stdbool.h"
+#include <stdbool.h>
 #include "PollerTask.h"
 #include "GPIO.h"
 #include "AppMain.h"
+#include "WatchDogHandler.h"
 
 //*********************Local Types*********************************************
 
@@ -45,11 +46,18 @@ void PollerTask()
 {
 	REQUEST_MSG stReqMsg = {0, 0, 0};
 	ACK_MSG stAckMsg = {0, 0, 0, 0};
+	WATCHDOG_EVENT stPollerEvent = {0};
+	uint32 ulStartTick = 0;
+	uint32 ulEndTick = 0;
+	uint32 ulTimeTaken = 0;
 
-	if(osMsgqPollerToRecieverInit(sizeof(stReqMsg)))
+	if((osMsgqPollerToRecieverInit(sizeof(stReqMsg))) && \
+			(osMsgqWatchdogInit(sizeof(stPollerEvent))))
 	{
 		while(1)
 		{
+			ulStartTick = osGetTime();
+
 			if(GPIOReadButtonPress())
 			{
 				printf("\nButton Pressed\r\n");
@@ -75,6 +83,14 @@ void PollerTask()
 			}
 
 			osTaskDelay(DELAY_100);
+			stPollerEvent.src = WATCHDOG_SRC_POLLER;
+			if(!osMsgqSendToWatchdog(stPollerEvent))
+			{
+				printf("Poller : Send Event to watchDogHandler Failed\r\n");
+			}
+			ulEndTick = osGetTime();
+			ulTimeTaken = ulEndTick - ulStartTick;
+			//printf("PollerTask time: %lu ms\r\n", ulTimeTaken);
 		}
 	}
 }
@@ -86,7 +102,7 @@ void PollerTask()
 //Return  : TRUE - Request Message built, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool PollerTaskBuildRequest(REQUEST_MSG* stReqMsg)
+static bool PollerTaskBuildRequest(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 

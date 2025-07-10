@@ -15,10 +15,11 @@
 #include "osMsgq.h"
 #include "osTask.h"
 #include <stdio.h>
-#include "stdbool.h"
+#include <stdbool.h>
 #include "RecieverTask.h"
 #include "LED.h"
 #include "AppMain.h"
+#include "WatchDogHandler.h"
 
 //*********************Local Types*********************************************
 
@@ -48,11 +49,16 @@ void RecieverTask()
 	ACK_MSG stAckMsg = {0, 0, 0, 0};
 	bool blFlag = FALSE;
 	uint8 ucStatus = 0;
+	WATCHDOG_EVENT stReceiverEvent = {0};
+	uint32 ulStartTick = 0;
+	uint32 ulEndTick = 0;
+	uint32 ulTimeTaken = 0;
 
 	if(osMsgqRecieverToPollerInit(sizeof(stAckMsg)))
 	{
 		while(1)
 		{
+			ulStartTick = osGetTime();
 			if(osMsgqMessageRcvFromPoller(&stReqMsg))
 			{
 				printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
@@ -68,6 +74,14 @@ void RecieverTask()
 					}
 				}
 			}
+			stReceiverEvent.src = WATCHDOG_SRC_RECEIVER;
+			if(!osMsgqSendToWatchdog(stReceiverEvent))
+			{
+				printf("Receiver : Send Event to watchDogHandler Failed");
+			}
+			ulEndTick = osGetTime();
+			ulTimeTaken = ulEndTick - ulStartTick;
+			//printf("ReceiverTask time: %lu ms\r\n", ulTimeTaken);
 		}
 	}
 }
@@ -104,7 +118,7 @@ static bool ReceiverTaskSetAckMsg(ACK_MSG* stAckMsg,uint8 ucState)
 //Return  : TRUE - Request Message Processed, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool RecieverTaskProcessRequest(REQUEST_MSG* stReqMsg)
+static bool RecieverTaskProcessRequest(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 
@@ -145,7 +159,7 @@ bool RecieverTaskProcessRequest(REQUEST_MSG* stReqMsg)
 //Return  : TRUE - Request Message UID processed, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool RecieverTaskProcessUID(REQUEST_MSG* stReqMsg)
+static bool RecieverTaskProcessUID(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 
@@ -165,7 +179,7 @@ bool RecieverTaskProcessUID(REQUEST_MSG* stReqMsg)
 //Return  : TRUE - Request Message CMD processed, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool RecieverTaskProcessCMD(REQUEST_MSG* stReqMsg)
+static bool RecieverTaskProcessCMD(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 
@@ -201,7 +215,7 @@ bool RecieverTaskProcessCMD(REQUEST_MSG* stReqMsg)
 //Return  : TRUE - Request Message DATA processed, FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool RecieverTaskProcessDATA(REQUEST_MSG* stReqMsg)
+static bool RecieverTaskProcessDATA(REQUEST_MSG* stReqMsg)
 {
 	bool blFlag = FALSE;
 

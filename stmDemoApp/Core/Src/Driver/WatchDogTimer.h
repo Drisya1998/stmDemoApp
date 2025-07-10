@@ -1,45 +1,40 @@
-//**************************** OSInterface ***************************************
+//**************************** WatchDogTimer ********************************
 // Copyright (c) 2025 Trenser Technology Solutions
 // All Rights Reserved
 //*****************************************************************************
 //
-// Summary : OSInterface header File
+// Summary : watchDog Timer header File
 // Note    : Added Macros
 //
 //*****************************************************************************
 
-#ifndef INC_OS_INTERFACE_H_
-#define INC_OS_INTERFACE_H_
+#ifndef INC_WATCHDOG_TIMER_H_
+#define INC_WATCHDOG_TIMER_H_
 
 //******************************* Include Files *******************************
-#include "cmsis_os2.h"
 #include "AppMain.h"
-#include "stdbool.h"
 //******************************* Global Types ********************************
-typedef struct _TASKS_
+typedef struct _IWDG_TYPE_
 {
-	uint8 *pucTaskName;
-	uint32 ulStackSize;
-	uint8 ucPriority;
-	void (*pTaskFunc)(void *);
-}TASKS;
+	uint32 KR;
+	uint32 PR;
+	uint32 RLR;
+	uint32 SR;
+}IWDG_TYPE;
 
 //***************************** Global Constants ******************************
-#define TASKS_MAX_SIZE		3
-#define STACK_SIZE			128 * 4
-#define THREAD_PRIORITY		24
-
+#define IWDG_BASE_ADDRESS	((IWDG_TYPE *)0x40003000)
+#define WRITE_ACCESS		0x5555
+#define RESET_COUNTER		0xAAAA
+#define START_WATCHDOG		0xCCCC
+#define PRESCALAR_VALUE		0x06
+#define RELOAD_VALUE		109
 //***************************** Global Variables ******************************
-extern osMutexId_t uartMutex;
 
 //***************************** Function Declaration **************************
-bool TaskInit();
-/*bool CreateUARTMutex();
-bool UARTMutexAcquire();
-bool UARTMutexRelease();*/
-void osTaskDelay(uint32);
-uint32 osGetTime();
+void WatchDogTimerInit();
+void WatchdogTimerClear();
 
 //*********************** Inline Method Implementations ***********************
 
-#endif /* INC_OS_INTERFACE_H_ */
+#endif /* INC_WATCHDOG_TIMER_H_ */

@@ -23,11 +23,13 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Core/Src/AppMain \
+Core/Src/Driver \
 Core/Src/GPIO \
 Core/Src/LED \
 Core/Src/OS \
 Core/Src/Poller \
 Core/Src/Reciever \
+Core/Src/WatchDog \
 Core/Src \
 Core/Startup \
 Drivers/STM32F1xx_HAL_Driver/Src \

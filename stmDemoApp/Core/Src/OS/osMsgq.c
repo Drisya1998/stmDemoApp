@@ -15,6 +15,7 @@
 #include <osMsgq.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "WatchDogHandler.h"
 #include "AppMain.h"
 #include "cmsis_os2.h"
 #include "PollerTask.h"
@@ -27,6 +28,7 @@
 //*********************Local Variables*****************************************
 osMessageQueueId_t PollerToReceiverId = NULL;
 osMessageQueueId_t ReceiverToPollerId = NULL;
+osMessageQueueId_t WatchdogQueueId = NULL;
 
 //*********************Local Functions*****************************************
 
@@ -107,7 +109,7 @@ bool osMsgqMessageRcvFromPoller(REQUEST_MSG* stReqMsg)
 	if(stReqMsg != NULL)
 	{
 		if (osMessageQueueGet(PollerToReceiverId, stReqMsg, NULL,
-				osWaitForever) == osOK)
+				100) == osOK)
 		{
 			blFlag = TRUE;
 		}
@@ -157,6 +159,69 @@ bool osMsgqMessageRcvFromReceiver(ACK_MSG* stAckMsg)
 	}
 
 	return blFlag;
+}
+
+//*********************.osMsgqWatchdogInit.************************************
+//Purpose :	initialize Message Queue for WatchDogHandler
+//Inputs  : MsgSize - Size of WATCHDOG_EVENT
+//Outputs : None
+//Return  : TRUE - Message Queue Initialization completed, FALSE - error
+//Notes   : None
+//*****************************************************************************
+bool osMsgqWatchdogInit(uint32 MsgSize)
+{
+	bool blFlag = FALSE;
+
+	WatchdogQueueId = osMessageQueueNew(MSG_COUNT, MsgSize, NULL);
+
+	if(WatchdogQueueId != NULL)
+	{
+		blFlag = TRUE;
+	}
+
+	return blFlag;
+}
+
+//*********************.osMsgqSendToWatchdog.****************************
+//Purpose :	Send the Event to watchdog through Message Queue
+//Inputs  : stEvent -  event
+//Outputs : None
+//Return  : TRUE - Message Sent, FALSE - error
+//Notes   : None
+//*****************************************************************************
+bool osMsgqSendToWatchdog(WATCHDOG_EVENT stEvent)
+{
+	bool blFlag = FALSE;
+
+    if(osMessageQueuePut(WatchdogQueueId, &stEvent, 0, 0) == osOK)
+    {
+    	blFlag = TRUE;
+    }
+
+    return blFlag;
+}
+
+//*********************.osMsgqRcvFromWatchdog.****************************
+//Purpose :	Send the Event to watchdog through Message Queue
+//Inputs  : stEvent -  event
+//Outputs : None
+//Return  : TRUE - Message Received, FALSE - error
+//Notes   : None
+//*****************************************************************************
+bool osMsgqRcvFromWatchdog(WATCHDOG_EVENT* stEvent)
+{
+	bool blFlag = FALSE;
+
+	if(stEvent != NULL)
+	{
+		if(osMessageQueueGet(WatchdogQueueId, stEvent, NULL,
+											osWaitForever) == osOK)
+		{
+			blFlag = TRUE;
+		}
+	}
+
+    return blFlag;
 }
 
 //EOF

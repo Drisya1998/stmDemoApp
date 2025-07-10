@@ -19,6 +19,8 @@
 #include "cmsis_os2.h"
 #include "PollerTask.h"
 #include "RecieverTask.h"
+#include "WatchDogHandler.h"
+#include "stm32f1xx_hal.h"
 
 //*********************Local Types*********************************************
 
@@ -32,11 +34,12 @@ static uint8 ucThreadIndex = 0;
 TASKS stTasks[TASKS_MAX_SIZE] =
 	{
 		{(uint8*)"Poller", STACK_SIZE, THREAD_PRIORITY, PollerTask},
-		{(uint8*)"Receiver", STACK_SIZE, THREAD_PRIORITY, RecieverTask}
+		{(uint8*)"Receiver", STACK_SIZE, THREAD_PRIORITY, RecieverTask},
+		{(uint8*)"WatchDogHandler", STACK_SIZE, THREAD_PRIORITY, WatchDogHandler}
 	};
 
 //*********************Local Functions*****************************************
-
+static bool osTaskCreate();
 //*********************.TaskInit.**********************************************
 //Purpose :	Infinitely check the button press and send the request to Reciever
 //			Task
@@ -66,7 +69,7 @@ bool TaskInit()
 //Return  : TRUE - created thread successfully , FALSE - error
 //Notes   : None
 //*****************************************************************************
-bool osTaskCreate(TASKS *stTask)
+static bool osTaskCreate(TASKS *stTask)
 {
 	bool blFlag = FALSE;
 	osThreadAttr_t attr = {0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -169,4 +172,19 @@ void osTaskDelay(uint32 delay)
 	osDelay(delay);
 }
 
+//*********************.osGetTime.*******************************************
+//Purpose : To get the time
+//Inputs  : None
+//Outputs : None
+//Return  : Time
+//Notes   : None
+//*****************************************************************************
+uint32 osGetTime()
+{
+	uint32 ulTime;
+
+	ulTime = HAL_GetTick();
+
+	return ulTime;
+}
 //EOF

@@ -1,3 +1,4 @@
-../Core/Src/OS/osTask.c:48:6:TaskInit	16	static
-../Core/Src/OS/osTask.c:69:6:osTaskCreate	64	static
-../Core/Src/OS/osTask.c:167:6:osTaskDelay	16	static
+../Core/Src/OS/osTask.c:51:6:TaskInit	16	static
+../Core/Src/OS/osTask.c:72:13:osTaskCreate	64	static
+../Core/Src/OS/osTask.c:170:6:osTaskDelay	16	static
+../Core/Src/OS/osTask.c:182:8:osGetTime	16	static

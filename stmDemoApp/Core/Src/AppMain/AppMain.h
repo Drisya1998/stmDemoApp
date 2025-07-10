@@ -38,12 +38,6 @@ typedef struct _ACK_MSG_
 //***************************** Global Constants ******************************
 #define TRUE                1
 #define FALSE               0
-#define TASKS_MAX_SIZE		2
-#define STACK_SIZE			256 * 4
-#define THREAD_PRIORITY		24
-#define SET_CMD				0x02
-#define GET_CMD				0x01
-#define ACK_CMD				0x00
 #define DELAY_300			300
 #define DELAY_100			100
 

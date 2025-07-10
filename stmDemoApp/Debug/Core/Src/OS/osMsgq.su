@@ -1,6 +1,9 @@
-../Core/Src/OS/osMsgq.c:41:6:osMsgqPollerToRecieverInit	24	static
-../Core/Src/OS/osMsgq.c:62:6:osMsgqRecieverToPollerInit	24	static
-../Core/Src/OS/osMsgq.c:83:6:osMsgqMessageSendToReceiver	32	static
-../Core/Src/OS/osMsgq.c:103:6:osMsgqMessageRcvFromPoller	24	static
-../Core/Src/OS/osMsgq.c:126:6:osMsgqMessageSendToPoller	32	static
-../Core/Src/OS/osMsgq.c:146:6:osMsgqMessageRcvFromReceiver	24	static
+../Core/Src/OS/osMsgq.c:43:6:osMsgqPollerToRecieverInit	24	static
+../Core/Src/OS/osMsgq.c:64:6:osMsgqRecieverToPollerInit	24	static
+../Core/Src/OS/osMsgq.c:85:6:osMsgqMessageSendToReceiver	32	static
+../Core/Src/OS/osMsgq.c:105:6:osMsgqMessageRcvFromPoller	24	static
+../Core/Src/OS/osMsgq.c:128:6:osMsgqMessageSendToPoller	32	static
+../Core/Src/OS/osMsgq.c:148:6:osMsgqMessageRcvFromReceiver	24	static
+../Core/Src/OS/osMsgq.c:171:6:osMsgqWatchdogInit	24	static
+../Core/Src/OS/osMsgq.c:192:6:osMsgqSendToWatchdog	24	static
+../Core/Src/OS/osMsgq.c:211:6:osMsgqRcvFromWatchdog	24	static
