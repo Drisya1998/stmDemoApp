@@ -55,11 +55,11 @@ void PollerTask()
 		{
 			if(GPIOReadButtonPress())
 			{
-				printf("\nButton Pressed\r\n");
+				LOG("\nButton Pressed\r\n");
 
 				if(PollerTaskBuildRequest(&stReqMsg))
 				{
-					printf("Poller:Request Building\r\n");
+					LOG("Poller:Request Building\r\n");
 
 					if(osMsgqMessageSendToReceiver(stReqMsg))
 					{
@@ -68,18 +68,10 @@ void PollerTask()
 
 					if(osMsgqMessageRcvFromReceiver(&stAckMsg))
 					{
-						if(UARTMutexAcquire())
-						{
-							printf("Poller: ACKUID=%lu, CMD=0x%02X, "
+						LOG("Poller: ACKUID=%lu, CMD=0x%02X, "
 									"STATE=0x%02X, DATA=0x%08lX\r\n\n", \
 								stAckMsg.ulUId, stAckMsg.ucCmd,
 								stAckMsg.ucState, stAckMsg.ulData);
-						}
-						if(!UARTMutexRelease())
-						{
-							printf("UART Mutex Not Releasing\r\n");
-						}
-
 					}
 				}
 				osTaskDelay(DELAY_100);
@@ -87,7 +79,7 @@ void PollerTask()
 			stPollerEvent.src = WATCHDOG_SRC_POLLER;
 			if(!osMsgqSendToWatchdog(stPollerEvent))
 			{
-				printf("Poller : Send Event to watchDogHandler Failed\r\n");
+				LOG("Poller : Send Event to watchDogHandler Failed\r\n");
 			}
 		}
 	}

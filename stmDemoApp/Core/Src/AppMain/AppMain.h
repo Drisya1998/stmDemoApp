@@ -55,6 +55,15 @@ typedef struct _LOGACK_MSG_
 #define ACK_STATUS_OK 		0x00
 #define ACK_STAUS_ERROR		0x01
 
+#define LOG(...)               					\
+    do {                       					\
+        if(UARTMutexAcquire())    				\
+		{										\
+        	printf(__VA_ARGS__);   				\
+        }										\
+        UARTMutexRelease();    				\
+    } while (0)
+
 //***************************** Global Variables ******************************
 
 //***************************** Function Declaration **************************

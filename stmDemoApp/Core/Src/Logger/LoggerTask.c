@@ -58,16 +58,9 @@ void LoggerTask()
 		{
 			if(osMsgqMsgRcvFromReceiver(&stLogMsg))
 			{
-				if(UARTMutexAcquire())
-				{
-					printf("Logger: LOGUID=%lu LEDState=0x%02X\r\n",
+				LOG("Logger: LOGUID=%lu LEDState=0x%02X\r\n",
 						stLogMsg.ulUId, stLogMsg.ucLEDState);
-				}
 
-				if(!UARTMutexRelease())
-				{
-					printf("UART Mutex Not Releasing\r\n");
-				}
 
 				if(LoggerTaskProcessLoggerMsg(&stLogMsg))
 				{
@@ -86,7 +79,7 @@ void LoggerTask()
 			stLoggerEvent.src = WATCHDOG_SRC_LOGGER;
 			if(!osMsgqSendToWatchdog(stLoggerEvent))
 			{
-				printf("Logger : Send Event to watchDogHandler Failed");
+				LOG("Logger : Send Event to watchDogHandler Failed");
 			}
 			osTaskDelay(DELAY_100);
 		}

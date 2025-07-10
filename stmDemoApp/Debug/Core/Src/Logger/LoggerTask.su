@@ -1,5 +1,5 @@
 ../Core/Src/Logger/LoggerTask.c:47:6:LoggerTask	32	static
-../Core/Src/Logger/LoggerTask.c:103:13:LoggerTaskProcessLoggerMsg	24	static
-../Core/Src/Logger/LoggerTask.c:139:13:LoggerTaskProcessUID	24	static
-../Core/Src/Logger/LoggerTask.c:159:13:LoggerTaskProcessLEDState	24	static
-../Core/Src/Logger/LoggerTask.c:180:13:LoggerTaskSetAckMsg	24	static
+../Core/Src/Logger/LoggerTask.c:96:13:LoggerTaskProcessLoggerMsg	24	static
+../Core/Src/Logger/LoggerTask.c:132:13:LoggerTaskProcessUID	24	static
+../Core/Src/Logger/LoggerTask.c:152:13:LoggerTaskProcessLEDState	24	static
+../Core/Src/Logger/LoggerTask.c:173:13:LoggerTaskSetAckMsg	24	static

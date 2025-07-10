@@ -62,17 +62,8 @@ void RecieverTask()
 		{
 			if(osMsgqMessageRcvFromPoller(&stReqMsg))
 			{
-				if(UARTMutexAcquire())
-				{
-					printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
+				LOG("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
 						stReqMsg.ulUId, stReqMsg.ucCmd, stReqMsg.ulData);
-				}
-
-				if(!UARTMutexRelease())
-				{
-					printf("UART Mutex Not Releasing\r\n");
-				}
-
 				blFlag = RecieverTaskProcessRequest(&stReqMsg);
 				ucStatus = (blFlag != FALSE) ? ACK_STATUS_OK : ACK_STAUS_ERROR;
 
@@ -94,22 +85,14 @@ void RecieverTask()
 
 				if(osMsgqMessageRcvFromLogger(&stLogAckMsg))
 				{
-					if(UARTMutexAcquire())
-					{
-						printf("Receiver: LOGACKUID=%lu State=0x%02X\r\n",
+					LOG("Receiver: LOGACKUID=%lu State=0x%02X\r\n",
 							stLogAckMsg.ulUId, stLogAckMsg.ucState);
-					}
-
-					if(!UARTMutexRelease())
-					{
-						printf("UART Mutex Not Releasing\r\n");
-					}
 				}
 			}
 			stReceiverEvent.src = WATCHDOG_SRC_RECEIVER;
 			if(!osMsgqSendToWatchdog(stReceiverEvent))
 			{
-				printf("Receiver : Send Event to watchDogHandler Failed");
+				LOG("Receiver : Send Event to watchDogHandler Failed");
 			}
 			osTaskDelay(DELAY_100);
 		}
