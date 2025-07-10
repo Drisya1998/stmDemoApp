@@ -34,24 +34,21 @@
 //Return  : TRUE - LED Blinking success, FALSE - failed
 //Notes   : None
 //*****************************************************************************
-bool LEDToggle()
+bool LEDToggle(uint8 ucLEDState)
 {
-	static bool sblLEDState = FALSE;
 	bool blFlag = FALSE;
 	PORT_TYPE port = PORT_A;
 	PIN_NUMBER pin = PIN_5;
 
-	if(sblLEDState == FALSE)
+	if(ucLEDState == TRUE)
 	{
 		blFlag = GPIOLEDSet(port, pin, TRUE);
 		printf("LED ON\r\n");
-		sblLEDState = TRUE;
 	}
 	else
 	{
 		blFlag = GPIOLEDSet(port, pin, FALSE);
 		printf("LED OFF\r\n");
-		sblLEDState = FALSE;
 	}
 
 	return blFlag;

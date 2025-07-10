@@ -28,6 +28,7 @@
 //*********************Local Variables*****************************************
 static uint32 sgulUId = 0;
 static uint32 sgulData = ACK_ERROR_DATA;
+uint8 gucLEDState = FALSE;
 
 //*********************Local Functions*****************************************
 static bool ReceiverTaskSetAckMsg(ACK_MSG*, uint8);
@@ -35,6 +36,7 @@ static bool RecieverTaskProcessRequest(REQUEST_MSG*);
 static bool RecieverTaskProcessUID(REQUEST_MSG*);
 static bool RecieverTaskProcessCMD(REQUEST_MSG*);
 static bool RecieverTaskProcessDATA(REQUEST_MSG*);
+static bool RecieverTaskBuildLoggerMsg(LOGGER_MSG*);
 
 //*********************.RecieverTask.******************************************
 //Purpose : Receive the request from Poller Task and Toggle the LED
@@ -47,22 +49,30 @@ void RecieverTask()
 {
 	REQUEST_MSG stReqMsg = {0, 0, 0};
 	ACK_MSG stAckMsg = {0, 0, 0, 0};
+	LOGGER_MSG stLogMsg = {0, 0};
+	LOGACK_MSG stLogAckMsg = {0, 0};
 	bool blFlag = FALSE;
 	uint8 ucStatus = 0;
 	WATCHDOG_EVENT stReceiverEvent = {0};
-	uint32 ulStartTick = 0;
-	uint32 ulEndTick = 0;
-	uint32 ulTimeTaken = 0;
 
-	if(osMsgqRecieverToPollerInit(sizeof(stAckMsg)))
+	if((osMsgqRecieverToPollerInit(sizeof(stAckMsg))) && \
+			(osMsgqReceiverToLoggerInit(sizeof(stLogMsg))))
 	{
 		while(1)
 		{
-			ulStartTick = osGetTime();
 			if(osMsgqMessageRcvFromPoller(&stReqMsg))
 			{
-				printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
+				if(UARTMutexAcquire())
+				{
+					printf("Receiver: REQUID=%lu CMD=0x%02X DATA=0x%08lX\r\n",
 						stReqMsg.ulUId, stReqMsg.ucCmd, stReqMsg.ulData);
+				}
+
+				if(!UARTMutexRelease())
+				{
+					printf("UART Mutex Not Releasing\r\n");
+				}
+
 				blFlag = RecieverTaskProcessRequest(&stReqMsg);
 				ucStatus = (blFlag != FALSE) ? ACK_STATUS_OK : ACK_STAUS_ERROR;
 
@@ -70,7 +80,29 @@ void RecieverTask()
 				{
 					if(osMsgqMessageSendToPoller(stAckMsg))
 					{
-						osTaskDelay(DELAY_100);
+						osTaskDelay(DELAY_200);
+					}
+				}
+
+				if(RecieverTaskBuildLoggerMsg(&stLogMsg))
+				{
+					if(osMsgqMessageSendToLogger(stLogMsg))
+					{
+						osTaskDelay(DELAY_200);
+					}
+				}
+
+				if(osMsgqMessageRcvFromLogger(&stLogAckMsg))
+				{
+					if(UARTMutexAcquire())
+					{
+						printf("Receiver: LOGACKUID=%lu State=0x%02X\r\n",
+							stLogAckMsg.ulUId, stLogAckMsg.ucState);
+					}
+
+					if(!UARTMutexRelease())
+					{
+						printf("UART Mutex Not Releasing\r\n");
 					}
 				}
 			}
@@ -79,9 +111,7 @@ void RecieverTask()
 			{
 				printf("Receiver : Send Event to watchDogHandler Failed");
 			}
-			ulEndTick = osGetTime();
-			ulTimeTaken = ulEndTick - ulStartTick;
-			//printf("ReceiverTask time: %lu ms\r\n", ulTimeTaken);
+			osTaskDelay(DELAY_100);
 		}
 	}
 }
@@ -94,7 +124,7 @@ void RecieverTask()
 //Return  : None
 //Notes   : None
 //*****************************************************************************
-static bool ReceiverTaskSetAckMsg(ACK_MSG* stAckMsg,uint8 ucState)
+static bool ReceiverTaskSetAckMsg(ACK_MSG* stAckMsg, uint8 ucState)
 {
 	bool blFlag = FALSE;
 	CMD_TYPE cmd = CMD_ACK;
@@ -188,10 +218,16 @@ static bool RecieverTaskProcessCMD(REQUEST_MSG* stReqMsg)
 		switch(stReqMsg->ucCmd)
 		{
 			case CMD_SET:
-				if(LEDToggle())
+				if((sgulData & MASK) == MASK)
 				{
-					blFlag = TRUE;
+					gucLEDState = TRUE;
 				}
+				else
+				{
+					gucLEDState = FALSE;
+				}
+
+				blFlag = TRUE;
 				break;
 
 			case CMD_GET:
@@ -222,6 +258,27 @@ static bool RecieverTaskProcessDATA(REQUEST_MSG* stReqMsg)
 	if(stReqMsg != NULL)
 	{
 		sgulData = stReqMsg->ulData;
+		blFlag = TRUE;
+	}
+
+	return blFlag;
+}
+
+//*********************.RecieverTaskBuildLoggerMsg.****************************
+//Purpose :	Build the Logger Message
+//Inputs  : stLogMsg - Logger Message
+//Outputs : None
+//Return  : TRUE - Request Message built, FALSE - error
+//Notes   : None
+//*****************************************************************************
+static bool RecieverTaskBuildLoggerMsg(LOGGER_MSG* stLogMsg)
+{
+	bool blFlag = FALSE;
+
+	if(stLogMsg != NULL)
+	{
+		stLogMsg->ulUId = sgulUId;
+		stLogMsg->ucLEDState = gucLEDState;
 		blFlag = TRUE;
 	}
 

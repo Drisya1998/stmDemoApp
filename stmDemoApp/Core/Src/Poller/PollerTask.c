@@ -47,57 +47,55 @@ void PollerTask()
 	REQUEST_MSG stReqMsg = {0, 0, 0};
 	ACK_MSG stAckMsg = {0, 0, 0, 0};
 	WATCHDOG_EVENT stPollerEvent = {0};
-	uint32 ulStartTick = 0;
-	uint32 ulEndTick = 0;
-	uint32 ulTimeTaken = 0;
 
 	if((osMsgqPollerToRecieverInit(sizeof(stReqMsg))) && \
 			(osMsgqWatchdogInit(sizeof(stPollerEvent))))
 	{
 		while(1)
 		{
-			ulStartTick = osGetTime();
-
 			if(GPIOReadButtonPress())
 			{
 				printf("\nButton Pressed\r\n");
 
 				if(PollerTaskBuildRequest(&stReqMsg))
 				{
-					printf("Request Processed\r\n");
+					printf("Poller:Request Building\r\n");
 
 					if(osMsgqMessageSendToReceiver(stReqMsg))
 					{
-						osTaskDelay(DELAY_300);
+						osTaskDelay(DELAY_200);
 					}
 
 					if(osMsgqMessageRcvFromReceiver(&stAckMsg))
 					{
-						printf("Poller: ACKUID=%lu, CMD=0x%02X, STATE=0x%02X, \
-								DATA=0x%08lX\r\n\n",
+						if(UARTMutexAcquire())
+						{
+							printf("Poller: ACKUID=%lu, CMD=0x%02X, "
+									"STATE=0x%02X, DATA=0x%08lX\r\n\n", \
 								stAckMsg.ulUId, stAckMsg.ucCmd,
 								stAckMsg.ucState, stAckMsg.ulData);
+						}
+						if(!UARTMutexRelease())
+						{
+							printf("UART Mutex Not Releasing\r\n");
+						}
 
 					}
 				}
+				osTaskDelay(DELAY_100);
 			}
-
-			osTaskDelay(DELAY_100);
 			stPollerEvent.src = WATCHDOG_SRC_POLLER;
 			if(!osMsgqSendToWatchdog(stPollerEvent))
 			{
 				printf("Poller : Send Event to watchDogHandler Failed\r\n");
 			}
-			ulEndTick = osGetTime();
-			ulTimeTaken = ulEndTick - ulStartTick;
-			//printf("PollerTask time: %lu ms\r\n", ulTimeTaken);
 		}
 	}
 }
 
 //*********************.PollerTaskProcessRequest.******************************
 //Purpose :	Build the Request Message
-//Inputs  : None
+//Inputs  : stReqMsg - Request Message
 //Outputs : None
 //Return  : TRUE - Request Message built, FALSE - error
 //Notes   : None

@@ -1,15 +1,15 @@
-//**************************** OSInterface ***************************************
+//**************************** OSTask *****************************************
 // Copyright (c) 2025 Trenser Technology Solutions
 // All Rights Reserved
 //*****************************************************************************
 //
-// Summary : OSInterface header File
+// Summary : OSTask header File
 // Note    : Added Macros
 //
 //*****************************************************************************
 
-#ifndef INC_OS_INTERFACE_H_
-#define INC_OS_INTERFACE_H_
+#ifndef INC_OS_TASK_H_
+#define INC_OS_TASK_H_
 
 //******************************* Include Files *******************************
 #include "cmsis_os2.h"
@@ -25,8 +25,8 @@ typedef struct _TASKS_
 }TASKS;
 
 //***************************** Global Constants ******************************
-#define TASKS_MAX_SIZE		3
-#define STACK_SIZE			128 * 4
+#define TASKS_MAX_SIZE		4
+#define STACK_SIZE			512 * 2
 #define THREAD_PRIORITY		24
 
 //***************************** Global Variables ******************************
@@ -34,12 +34,11 @@ extern osMutexId_t uartMutex;
 
 //***************************** Function Declaration **************************
 bool TaskInit();
-/*bool CreateUARTMutex();
 bool UARTMutexAcquire();
-bool UARTMutexRelease();*/
+bool UARTMutexRelease();
 void osTaskDelay(uint32);
 uint32 osGetTime();
 
 //*********************** Inline Method Implementations ***********************
 
-#endif /* INC_OS_INTERFACE_H_ */
+#endif /* INC_OS_TASK_H_ */

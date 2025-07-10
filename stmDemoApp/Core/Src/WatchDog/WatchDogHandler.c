@@ -51,11 +51,40 @@ void WatchDogHandler()
 				if(stFlags.ucAll == ALL_EVENTS_SET)
 				{
 					WatchdogTimerClear();
-					printf("Watchdog Cleared\r\n");
+					if(UARTMutexAcquire())
+					{
+						printf("Watchdog Cleared\r\n");
+					}
+
+					if(!UARTMutexRelease())
+					{
+						printf("UART Mutex Not Releasing\r\n");
+					}
 					stFlags.ucAll = 0;  // Reset for next cycle
 				}
+				/*else
+				{
+				    printf("Watchdog NOT cleared! Missing from: ");
+
+				    if(!stFlags.BITS.ucPoller)
+				    {
+				        printf("Poller ");
+				    }
+
+				    if(!stFlags.BITS.ucReceiver)
+				    {
+				        printf("Receiver ");
+				    }
+				    if(!stFlags.BITS.ucLogger)
+				    {
+				        printf("Logger ");
+				    }
+
+				    printf("\r\n");
+				}*/
 			}
 		}
+		osTaskDelay(DELAY_100);
 	}
 }
 
@@ -81,6 +110,10 @@ static bool WatchDogHandlerProcessEvent(WATCHDOG_EVENT* stEvent)
 				break;
 			case WATCHDOG_SRC_RECEIVER :
 				stFlags.BITS.ucReceiver = TRUE;
+				blFlag = TRUE;
+				break;
+			case WATCHDOG_SRC_LOGGER :
+				stFlags.BITS.ucLogger = TRUE;
 				blFlag = TRUE;
 				break;
 			default :

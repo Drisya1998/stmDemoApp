@@ -16,8 +16,6 @@
 //******************************* Global Types ********************************
 
 //***************************** Global Constants ******************************
-#define ACK_STATUS_OK 		0x00
-#define ACK_STAUS_ERROR		0x01
 #define ACK_ERROR_DATA		0xFFFFFFFF
 #define MASK				0x00000001
 

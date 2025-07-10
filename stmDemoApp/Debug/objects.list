@@ -2,6 +2,7 @@
 "./Core/Src/Driver/WatchdogTimer.o"
 "./Core/Src/GPIO/GPIO.o"
 "./Core/Src/LED/LED.o"
+"./Core/Src/Logger/LoggerTask.o"
 "./Core/Src/OS/osMsgq.o"
 "./Core/Src/OS/osTask.o"
 "./Core/Src/Poller/PollerTask.o"

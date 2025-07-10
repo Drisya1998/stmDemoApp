@@ -26,6 +26,7 @@ Core/Src/AppMain \
 Core/Src/Driver \
 Core/Src/GPIO \
 Core/Src/LED \
+Core/Src/Logger \
 Core/Src/OS \
 Core/Src/Poller \
 Core/Src/Reciever \

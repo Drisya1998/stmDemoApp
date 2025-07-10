@@ -1,4 +1,7 @@
-../Core/Src/OS/osTask.c:51:6:TaskInit	16	static
-../Core/Src/OS/osTask.c:72:13:osTaskCreate	64	static
-../Core/Src/OS/osTask.c:170:6:osTaskDelay	16	static
-../Core/Src/OS/osTask.c:182:8:osGetTime	16	static
+../Core/Src/OS/osTask.c:55:6:TaskInit	16	static
+../Core/Src/OS/osTask.c:78:13:osTaskCreate	64	static
+../Core/Src/OS/osTask.c:116:13:CreateUARTMutex	16	static
+../Core/Src/OS/osTask.c:138:6:UARTMutexRelease	16	static
+../Core/Src/OS/osTask.c:157:6:UARTMutexAcquire	16	static
+../Core/Src/OS/osTask.c:176:6:osTaskDelay	16	static
+../Core/Src/OS/osTask.c:188:8:osGetTime	16	static

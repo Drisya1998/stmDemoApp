@@ -12,7 +12,7 @@
 #define INC_APPMAIN_H_
 
 //******************************* Include Files *******************************
-#include "stdbool.h"
+#include <stdbool.h>
 
 //******************************* Global Types ********************************
 typedef unsigned short uint16;
@@ -35,14 +35,27 @@ typedef struct _ACK_MSG_
     uint32 ulData;
 }ACK_MSG;
 
+typedef struct _LOGGER_MSG_
+{
+    uint32 ulUId;
+    uint8 ucLEDState;
+}LOGGER_MSG;
+
+typedef struct _LOGACK_MSG_
+{
+    uint32 ulUId;
+    uint8 ucState;
+}LOGACK_MSG;
+
 //***************************** Global Constants ******************************
 #define TRUE                1
 #define FALSE               0
-#define DELAY_300			300
+#define DELAY_200			200
 #define DELAY_100			100
+#define ACK_STATUS_OK 		0x00
+#define ACK_STAUS_ERROR		0x01
 
 //***************************** Global Variables ******************************
-extern uint8 ucLedStatus;
 
 //***************************** Function Declaration **************************
 void AppMain();

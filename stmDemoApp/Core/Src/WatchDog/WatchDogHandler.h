@@ -17,7 +17,8 @@
 //******************************* Global Types ********************************
 typedef enum {
     WATCHDOG_SRC_POLLER = 0x01,
-    WATCHDOG_SRC_RECEIVER = 0x02
+    WATCHDOG_SRC_RECEIVER = 0x02,
+	WATCHDOG_SRC_LOGGER = 0x03
 } WATCHDOG_SRC;
 
 typedef union _WATCHDOG_EVENT_FLAGS_
@@ -26,6 +27,7 @@ typedef union _WATCHDOG_EVENT_FLAGS_
     {
         uint8 ucPoller : 1;
         uint8 ucReceiver : 1;
+        uint8 ucLogger : 1;
     }BITS;
     uint8 ucAll;
 }WATCHDOG_EVENT_FLAGS;
@@ -36,7 +38,7 @@ typedef struct _WATCHDOG_EVENT_
 }WATCHDOG_EVENT;
 
 //***************************** Global Constants ******************************
-#define ALL_EVENTS_SET 			0x03
+#define ALL_EVENTS_SET 			0x07
 //***************************** Global Variables ******************************
 
 //***************************** Function Declaration **************************
