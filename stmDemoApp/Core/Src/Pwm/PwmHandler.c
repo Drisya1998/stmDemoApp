@@ -1,23 +1,19 @@
-//*******************************LED*******************************************
+//*******************************PwmHandler*********************************
 //Copyright (c) 2025 Trenser Technology Solutions
 //All Rights Reserved
 //*****************************************************************************
 //
-//File     : LED.c
-//Summary  : LED blinking on STM32 in GPIOA with delay of 1 second
+//File     : PwmHandler.c
+//Summary  : LED blinking using pwm
 //Note     : None
 //Author   : Drisya P
-//Date     : 27/Jun/2025
+//Date     : 10/Jul/2025
 //
 //*****************************************************************************
 
 //*********************Include Files*******************************************
-#include <stdbool.h>
-#include <stdio.h>
-#include "LED.h"
-#include "AppMain.h"
-#include "main.h"
-#include "GPIO.h"
+#include "PwmDriver.h"
+#include "PwmHandler.h"
 
 //*********************Local Types*********************************************
 
@@ -27,38 +23,24 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.LEDBlink.**********************************************
-//Purpose : LED blinking
+//*********************.PwmDriverInit.*************************************
+//Purpose : Initialize the Pwm.
 //Inputs  : None
 //Outputs : None
-//Return  : TRUE - LED Blinking success, FALSE - failed
+//Return  : None
 //Notes   : None
 //*****************************************************************************
-bool LEDToggle(uint8 ucLEDState)
+bool PwmHandler()
 {
 	bool blFlag = FALSE;
-	PORT_TYPE port = PORT_A;
-	PIN_NUMBER pin = PIN_5;
 
-	if(ucLEDState == TRUE)
-	{
-		blFlag = GPIOLEDSet(port, pin, TRUE);
+	PWMDriverInit();
+	PWMDriverSet();
+	PWMDriverStart(DUTY_CYCLE);
 
-		if(blFlag != FALSE)
-		{
-			printf("LED ON\r\n");
-		}
-	}
-	else
-	{
-		blFlag = GPIOLEDSet(port, pin, FALSE);
-
-		if(blFlag != FALSE)
-		{
-			printf("LED OFF\r\n");
-		}
-	}
+	blFlag = TRUE;
 
 	return blFlag;
 }
+
 //EOF

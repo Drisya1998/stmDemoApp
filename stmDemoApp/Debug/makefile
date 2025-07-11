@@ -17,6 +17,7 @@ RM := rm -rf
 -include Core/Startup/subdir.mk
 -include Core/Src/WatchDog/subdir.mk
 -include Core/Src/Reciever/subdir.mk
+-include Core/Src/Pwm/subdir.mk
 -include Core/Src/Poller/subdir.mk
 -include Core/Src/OS/subdir.mk
 -include Core/Src/Logger/subdir.mk

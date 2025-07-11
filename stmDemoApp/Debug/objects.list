@@ -7,6 +7,7 @@
 "./Core/Src/OS/osMsgq.o"
 "./Core/Src/OS/osTask.o"
 "./Core/Src/Poller/PollerTask.o"
+"./Core/Src/Pwm/PwmHandler.o"
 "./Core/Src/Reciever/RecieverTask.o"
 "./Core/Src/WatchDog/WatchDogHandler.o"
 "./Core/Src/freertos.o"

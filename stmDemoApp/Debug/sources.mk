@@ -29,6 +29,7 @@ Core/Src/LED \
 Core/Src/Logger \
 Core/Src/OS \
 Core/Src/Poller \
+Core/Src/Pwm \
 Core/Src/Reciever \
 Core/Src/WatchDog \
 Core/Src \

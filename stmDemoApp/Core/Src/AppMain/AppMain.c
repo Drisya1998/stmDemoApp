@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "AppMain.h"
+#include "PwmHandler.h"
 
 //*********************Local Types*********************************************
 
@@ -37,6 +38,13 @@ void AppMain()
 	bool blFlag =  FALSE;
 
 	printf("Hello from STM32 via UART!\r\n");
+	blFlag = PwmHandler();
+
+	if(blFlag == FALSE)
+	{
+		printf("PWM Failed\r\n");
+	}
+
 	blFlag = TaskInit();
 
 	if(blFlag == FALSE)
