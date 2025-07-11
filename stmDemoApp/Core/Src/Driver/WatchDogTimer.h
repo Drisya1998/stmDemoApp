@@ -14,12 +14,37 @@
 //******************************* Include Files *******************************
 #include "AppMain.h"
 //******************************* Global Types ********************************
+typedef struct _KR_
+{
+    uint32 ulKEY : 16;  // Only 16 bits used
+    uint32 ulRESERVED :16;
+} KR;
+
+typedef struct _PR_
+{
+    uint32 ulPR : 3;     // Prescaler is 3 bits (as per STM32 IWDG spec)
+    uint32 ulRESERVED : 29;
+} PR;
+
+typedef struct _RLR_
+{
+    uint32 ulRLR : 12;    // Reload value is 12 bits
+    uint32 ulRESERVED : 20;
+} RLR;
+
+typedef struct _SR_
+{
+    uint32 ulPVU : 1;    // Prescaler Value Update ongoing
+    uint32 ulRVU : 1;    // Reload Value Update ongoing
+    uint32 ulRESERVED : 30;
+} SR;
+
 typedef struct _IWDG_TYPE_
 {
-	uint32 KR;
-	uint32 PR;
-	uint32 RLR;
-	uint32 SR;
+	KR stKR;
+	PR stPR;
+	RLR stRLR;
+	SR stSR;
 }IWDG_TYPE;
 
 //***************************** Global Constants ******************************

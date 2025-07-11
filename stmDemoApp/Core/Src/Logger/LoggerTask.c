@@ -4,8 +4,8 @@
 //*****************************************************************************
 //
 //File     : PollerTask.c
-//Summary  : Infinitely check the button press and send the request to Reciever
-//			 Task and handles the request data
+//Summary  : Receives the Log Msg and LED toggled as per the LED status in the
+//				Log Msg and send ACK to Receiver.
 //Note     : None
 //Author   : Drisya P
 //Date     : 03/Jul/2025

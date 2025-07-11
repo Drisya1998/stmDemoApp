@@ -4,7 +4,9 @@
 //*****************************************************************************
 //
 //File     : WatchDogHandler.c
-//Summary  : Printf via UART and LED blinking
+//Summary  : WatchDog timer Initialized and check the events from 3 tasks ,when
+//			3 events comes , Watchdog Timer will reset. Otherwise system will
+//			reset.
 //Note     : None
 //Author   : Drisya P
 //Date     : 09/Jul/2025

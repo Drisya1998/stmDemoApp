@@ -34,10 +34,10 @@ osMutexId_t uartMutex = NULL;
 
 TASKS stTasks[TASKS_MAX_SIZE] =
 	{
-		{(uint8*)"Poller", STACK_SIZE, THREAD_PRIORITY, PollerTask},
-		{(uint8*)"Receiver", STACK_SIZE, THREAD_PRIORITY, RecieverTask},
-		{(uint8*)"Logger", STACK_SIZE, THREAD_PRIORITY, LoggerTask},
-		{(uint8*)"WatchDogHandler", STACK_SIZE, THREAD_PRIORITY, WatchDogHandler}
+		{(uint8*)"Poller", 0, STACK_SIZE, THREAD_PRIORITY, PollerTask},
+		{(uint8*)"Receiver", 0, STACK_SIZE, THREAD_PRIORITY, RecieverTask},
+		{(uint8*)"Logger", 0, STACK_SIZE, THREAD_PRIORITY, LoggerTask},
+		{(uint8*)"WatchDogHandler", 0, STACK_SIZE, THREAD_PRIORITY, WatchDogHandler}
 	};
 
 //*********************Local Functions*****************************************
@@ -88,6 +88,7 @@ static bool osTaskCreate(TASKS *stTask)
 
 		ThreadHandles[ucThreadIndex] = osThreadNew(stTask->pTaskFunc,
 														NULL, &attr);
+		stTask->Thread_Id = ThreadHandles[ucThreadIndex];
 
 		if(ThreadHandles[ucThreadIndex] == NULL)
 		{
@@ -192,5 +193,45 @@ uint32 osGetTime()
 	ulTime = HAL_GetTick();
 
 	return ulTime;
+}
+
+//*********************.GetThreadState.****************************************
+//Purpose : To get the current status of Thread
+//Inputs  : None
+//Outputs : None
+//Return  : Status of Thread
+//Notes   : None
+//*****************************************************************************
+void GetThreadState()
+{
+	uint8 ucStatus = 0;
+	uint8 ucIndex = 0;
+
+	for(ucIndex = 0; ucIndex < TASKS_MAX_SIZE; ucIndex++)
+	{
+		ucStatus = osThreadGetState(stTasks[ucIndex].Thread_Id);
+
+		switch(ucStatus)
+		{
+			case osThreadInactive :
+				LOG("%s is Inactive\r\n", stTasks[ucIndex].pucTaskName);
+				break;
+			case osThreadReady :
+				LOG("%s is Ready\r\n", stTasks[ucIndex].pucTaskName);
+				break;
+			case osThreadRunning :
+				LOG("%s is Running\r\n", stTasks[ucIndex].pucTaskName);
+				break;
+			case osThreadBlocked :
+				LOG("%s is Blocked\r\n", stTasks[ucIndex].pucTaskName);
+				break;
+			case osThreadTerminated :
+				printf("%s is Terminated\r\n", stTasks[ucIndex].pucTaskName);
+				break;
+			default :
+				LOG("Thread Status is Error");
+
+		}
+	}
 }
 //EOF

@@ -5,12 +5,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/Driver/PwmDriver.c \
 ../Core/Src/Driver/WatchdogTimer.c 
 
 OBJS += \
+./Core/Src/Driver/PwmDriver.o \
 ./Core/Src/Driver/WatchdogTimer.o 
 
 C_DEPS += \
+./Core/Src/Driver/PwmDriver.d \
 ./Core/Src/Driver/WatchdogTimer.d 
 
 
@@ -21,7 +24,7 @@ Core/Src/Driver/%.o Core/Src/Driver/%.su Core/Src/Driver/%.cyclo: ../Core/Src/Dr
 clean: clean-Core-2f-Src-2f-Driver
 
 clean-Core-2f-Src-2f-Driver:
-	-$(RM) ./Core/Src/Driver/WatchdogTimer.cyclo ./Core/Src/Driver/WatchdogTimer.d ./Core/Src/Driver/WatchdogTimer.o ./Core/Src/Driver/WatchdogTimer.su
+	-$(RM) ./Core/Src/Driver/PwmDriver.cyclo ./Core/Src/Driver/PwmDriver.d ./Core/Src/Driver/PwmDriver.o ./Core/Src/Driver/PwmDriver.su ./Core/Src/Driver/WatchdogTimer.cyclo ./Core/Src/Driver/WatchdogTimer.d ./Core/Src/Driver/WatchdogTimer.o ./Core/Src/Driver/WatchdogTimer.su
 
 .PHONY: clean-Core-2f-Src-2f-Driver
 

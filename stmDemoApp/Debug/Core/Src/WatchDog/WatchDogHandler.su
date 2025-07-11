@@ -1,2 +1,2 @@
-../Core/Src/WatchDog/WatchDogHandler.c:39:6:WatchDogHandler	16	static
-../Core/Src/WatchDog/WatchDogHandler.c:71:13:WatchDogHandlerProcessEvent	24	static
+../Core/Src/WatchDog/WatchDogHandler.c:41:6:WatchDogHandler	16	static
+../Core/Src/WatchDog/WatchDogHandler.c:73:13:WatchDogHandlerProcessEvent	24	static

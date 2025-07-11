@@ -4,7 +4,7 @@
 //*****************************************************************************
 //
 //File     : RecieverTask.c
-//Summary  : Receive the Request from Poller Task and Toggle the LED.
+//Summary  : Receive the Request from Poller Task and give Log Msg to Logger
 //Note     : None
 //Author   : Drisya P
 //Date     : 03/Jul/2025
