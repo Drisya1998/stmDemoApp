@@ -34,11 +34,11 @@ TIM2_REGISTERS* pstTIM2 = TIM2_BASEADR;
 //*****************************************************************************
 void PWMDriverInit()
 {
-	pstRCC->ulAPB2ENR |= (1 << 2);
-	pstRCC->ulAPB1ENR |= (1 << 0);
+	pstRCC->ulAPB2ENR |= GPIOA_CLOCK_ENABLE;
+	pstRCC->ulAPB1ENR |= TIM2_CLOCK_ENABLE;
 
-	pstGPIOA->crl.ulCRL &= ~(0xF << 0);
-	pstGPIOA->crl.ulCRL |=  (0xB << 0);
+	pstGPIOA->crl.ulCRL &= PA0_CRL_CLEAR;
+	pstGPIOA->crl.ulCRL |= PA0_CONFIG_SET;
 }
 
 //*********************.PwmDriverSet.************************************
@@ -52,16 +52,16 @@ void PWMDriverSet()
 {
 	pstTIM2->ulPSC = PRESCALAR;
 	pstTIM2->ulARR = AUTO_RELOAD;
-	pstTIM2->ulCCMR1 &= ~(0x7 << 4);
-	pstTIM2->ulCCMR1 |=  (0x6 << 4);
-	pstTIM2->ulCCMR1 |=  (1 << 3);
-	pstTIM2->ulCCER |= 1;
-	pstTIM2->ulCR1 |= (1 << 7);
-	pstTIM2->ulEGR |= (1 << 0);
+	pstTIM2->ulCCMR1 &= CH1_OC1M_CLEAR;
+	pstTIM2->ulCCMR1 |= CH1_PWM_MODE_SET;
+	pstTIM2->ulCCMR1 |= CH1_OC1PE_SET;
+	pstTIM2->ulCCER |= ENABLE_PWM;
+	pstTIM2->ulCR1 |= ARPE_SET;
+	pstTIM2->ulEGR |= UPDATE_EVENT;
 }
 
 //*********************.PWMDriverStart.************************************
-//Purpose : Configure TIM2 for PWM output on Channel 1
+//Purpose : Start TIM2 for PWM output on Channel 1
 //Inputs  : unDuty - dutyCycle
 //Outputs : None
 //Return  : None
@@ -70,6 +70,6 @@ void PWMDriverSet()
 void PWMDriverStart(uint16 unDuty)
 {
 	pstTIM2->ulCCR1 = unDuty;
-	pstTIM2->ulCR1 |= 1;
+	pstTIM2->ulCR1 |= ENABLE_PWM;
 }
 //EOF

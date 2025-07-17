@@ -23,8 +23,8 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.PwmDriverInit.*************************************
-//Purpose : Initialize the Pwm.
+//*********************.PwmHandler.********************************************
+//Purpose : Handles Pwm Mode on TImer to LED blinking.
 //Inputs  : None
 //Outputs : None
 //Return  : None

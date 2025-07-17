@@ -83,8 +83,18 @@ typedef struct _TIM2_REGISTERS_
 #define RCC_BASEADDR		 ((RCC_REGISTERS *) 0x40021000)
 #define TIM2_BASEADR		 ((TIM2_REGISTERS *)0x40000000)
 //***************************** Global Variables ******************************
-#define PRESCALAR			7199
-#define AUTO_RELOAD			4999
+#define PRESCALAR				7199
+#define AUTO_RELOAD				4999
+#define GPIOA_CLOCK_ENABLE		(1 << 2)
+#define TIM2_CLOCK_ENABLE		(1 << 0)
+#define PA0_CRL_CLEAR			~(0xF << 0)
+#define PA0_CONFIG_SET			(0xB << 0)
+#define CH1_OC1M_CLEAR			~(0x7 << 4)
+#define CH1_PWM_MODE_SET		(0x6 << 4)
+#define CH1_OC1PE_SET			(1 << 3)
+#define ARPE_SET				(1 << 7)
+#define UPDATE_EVENT			(1 << 0)
+#define ENABLE_PWM					0x1
 //***************************** Function Declaration **************************
 void PWMDriverInit();
 void PWMDriverSet();

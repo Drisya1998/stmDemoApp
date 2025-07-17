@@ -1,23 +1,20 @@
-//*******************************AppMain***************************************
+//*******************************RGBLed*********************************
 //Copyright (c) 2025 Trenser Technology Solutions
 //All Rights Reserved
 //*****************************************************************************
 //
-//File     : AppMain.c
-//Summary  : Printf via UART and LED blinking
+//File     : RGBLed.c
+//Summary  : LED will ON in RGB colour combination
 //Note     : None
 //Author   : Drisya P
-//Date     : 27/Jun/2025
+//Date     : 14/Jul/2025
 //
 //*****************************************************************************
 
 //*********************Include Files*******************************************
-#include <osTask.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include "AppMain.h"
-#include "PwmHandler.h"
 #include "RGBLed.h"
+#include "WS2811Driver.h"
+#include <stdio.h>
 
 //*********************Local Types*********************************************
 
@@ -27,38 +24,24 @@
 
 //*********************Local Functions*****************************************
 
-//*********************.AppMain.***********************************************
-//Purpose : Printf via UART and Initialize the Tasks.
+//*********************.RGBLedHandler.*****************************************
+//Purpose : handles the Ws2811 Led
 //Inputs  : None
 //Outputs : None
-//Return  : None
+//Return  : TRUe - success , FALSE - failure
 //Notes   : None
 //*****************************************************************************
-void AppMain()
+bool RGBLedHandler()
 {
-	bool blFlag =  FALSE;
+	bool blFlag = FALSE;
 
-	printf("Hello from STM32 via UART!\r\n");
-	blFlag = PwmHandler();
+	WS2811DriverInit();
+	WS2811PrepareBuffer(0xFF, 0xFF, 0x00);
+	WS2811DriverSendData();
+	printf("RGB Data Sent\r\n");
+	blFlag = TRUE;
 
-	if(blFlag == FALSE)
-	{
-		printf("PWM Failed\r\n");
-	}
-
-	blFlag = RGBLedHandler();
-
-	if(blFlag == FALSE)
-	{
-		printf("LED in RGB combination Failed");
-	}
-
-	blFlag = TaskInit();
-
-	if(blFlag == FALSE)
-	{
-		printf("Thread Creation Failed\r\n");
-	}
+	return blFlag;
 }
 
 //EOF
