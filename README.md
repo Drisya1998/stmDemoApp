@@ -1,6 +1,12 @@
 # stmDemoApp
 
-stmDemoApp is a application that builds LED Blinking application for STM32-F103C8.
+stmDemoApp is a application that builds LED Blinking application for STM32-F103RB.
+Also there is 3 Tasks Created Poller , Receiver , Logger Reads the button press and send request to Receiver , Receiver handles the request send to the Logger . Logger
+Task will toggles the LED according to the data comes from Poller. 
+WatchDog Implemented that receives the Events from 3 Tasks with Timer , otherwise
+system will restart.
+using PWM , LED is blinking Continuously. 
+Using PWM and DMA , WS2811 RGB LED will TURN ON.
 Arm® 32-bit Cortex®-M3 CPU core
 
 ## Features
