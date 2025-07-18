@@ -90,7 +90,9 @@ void WS2811DriverSendData()
 //*****************************************************************************
 void WS2811PrepareBuffer(uint8 ucGreen, uint8 ucRed, uint8 ucBlue)
 {
-    uint32 ulColor = ((uint32)ucGreen << 16) | ((uint32)ucRed << 8) | ucBlue;
+    uint32 ulColor = (((uint32)ucGreen << GREEN_LEFTSHIFT) |
+    					((uint32)ucRed << RED_LEFTSHIFT) |
+						ucBlue);
     uint8 ucIndex = 0;
 
     for (ucIndex = 0; ucIndex < WS2811_BITS_PER_LED; ucIndex++)
@@ -107,7 +109,7 @@ void WS2811PrepareBuffer(uint8 ucGreen, uint8 ucRed, uint8 ucBlue)
 
     for (ucIndex = 0; ucIndex < WS2811_RESET_LENGTH; ucIndex++)
     {
-    	unWS2811DMABuffer[24 + ucIndex] = 0;
+    	unWS2811DMABuffer[WS2811_BITS_PER_LED + ucIndex] = 0;
     }
 }
 
