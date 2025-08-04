@@ -1,0 +1,2 @@
+../Core/Src/Driver/WatchdogTimer.c:33:6:WatchDogTimerInit	4	static
+../Core/Src/Driver/WatchdogTimer.c:49:6:WatchdogTimerClear	4	static

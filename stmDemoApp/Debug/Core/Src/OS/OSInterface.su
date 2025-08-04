@@ -1,0 +1,11 @@
+../Core/Src/OS/OSInterface.c:42:6:CreateThread	64	static
+../Core/Src/OS/OSInterface.c:81:6:PollerToRecieverMsgQInit	24	static
+../Core/Src/OS/OSInterface.c:102:6:RecieverToPollerMsgQInit	24	static
+../Core/Src/OS/OSInterface.c:123:6:MessageSendToReceiver	32	static
+../Core/Src/OS/OSInterface.c:143:6:MessageRcvFromPoller	24	static
+../Core/Src/OS/OSInterface.c:166:6:MessageSendToPoller	32	static
+../Core/Src/OS/OSInterface.c:186:6:MessageRcvFromReceiver	24	static
+../Core/Src/OS/OSInterface.c:209:6:CreateUARTMutex	16	static
+../Core/Src/OS/OSInterface.c:231:6:UARTMutexRelease	16	static
+../Core/Src/OS/OSInterface.c:250:6:UARTMutexAcquire	16	static
+../Core/Src/OS/OSInterface.c:269:6:Delay	16	static

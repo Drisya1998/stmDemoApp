@@ -1,0 +1,7 @@
+../Core/Src/Reciever/RecieverTask.c:48:6:RecieverTask	56	static
+../Core/Src/Reciever/RecieverTask.c:110:13:ReceiverTaskSetAckMsg	24	static
+../Core/Src/Reciever/RecieverTask.c:134:13:RecieverTaskProcessRequest	24	static
+../Core/Src/Reciever/RecieverTask.c:175:13:RecieverTaskProcessUID	24	static
+../Core/Src/Reciever/RecieverTask.c:195:13:RecieverTaskProcessCMD	24	static
+../Core/Src/Reciever/RecieverTask.c:237:13:RecieverTaskProcessDATA	24	static
+../Core/Src/Reciever/RecieverTask.c:257:13:RecieverTaskBuildLoggerMsg	24	static

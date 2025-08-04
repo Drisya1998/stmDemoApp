@@ -1,0 +1,8 @@
+../Core/Src/OS/osTask.c:55:6:TaskInit	2
+../Core/Src/OS/osTask.c:78:13:osTaskCreate	3
+../Core/Src/OS/osTask.c:117:13:CreateUARTMutex	2
+../Core/Src/OS/osTask.c:139:6:UARTMutexRelease	2
+../Core/Src/OS/osTask.c:158:6:UARTMutexAcquire	2
+../Core/Src/OS/osTask.c:177:6:osTaskDelay	1
+../Core/Src/OS/osTask.c:189:8:osGetTime	1
+../Core/Src/OS/osTask.c:205:6:GetThreadState	12
