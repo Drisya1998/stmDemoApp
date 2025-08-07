@@ -94,7 +94,7 @@ typedef struct _TIM2_REGISTERS_
 #define CH1_OC1PE_SET			(1 << 3)
 #define ARPE_SET				(1 << 7)
 #define UPDATE_EVENT			(1 << 0)
-#define ENABLE_PWM					0x1
+#define ENABLE_PWM				0x1
 //***************************** Function Declaration **************************
 void PWMDriverInit();
 void PWMDriverSet();

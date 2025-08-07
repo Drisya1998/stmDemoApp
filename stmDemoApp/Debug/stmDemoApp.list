@@ -35,17 +35,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_rnglists 00000d49  00000000  00000000  00021250  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001a78a  00000000  00000000  00021f99  2**0
+ 16 .debug_macro  0001a7a2  00000000  00000000  00021f99  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00016203  00000000  00000000  0003c723  2**0
+ 17 .debug_line   00016203  00000000  00000000  0003c73b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0008f5f5  00000000  00000000  00052926  2**0
+ 18 .debug_str    0008f618  00000000  00000000  0005293e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000e1f1b  2**0
+ 19 .comment      00000043  00000000  00000000  000e1f56  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004c94  00000000  00000000  000e1f60  2**2
+ 20 .debug_frame  00004c94  00000000  00000000  000e1f9c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000065  00000000  00000000  000e6bf4  2**0
+ 21 .debug_line_str 00000065  00000000  00000000  000e6c30  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -500,15 +500,20 @@ void WS2811PrepareBuffer(uint8 ucGreen, uint8 ucRed, uint8 ucBlue)
  80003fc:	71bb      	strb	r3, [r7, #6]
  80003fe:	4613      	mov	r3, r2
  8000400:	717b      	strb	r3, [r7, #5]
-    uint32 ulColor = ((uint32)ucGreen << 16) | ((uint32)ucRed << 8) | ucBlue;
+    uint32 ulColor = (((uint32)ucGreen << GREEN_LEFTSHIFT) |
  8000402:	79fb      	ldrb	r3, [r7, #7]
  8000404:	041a      	lsls	r2, r3, #16
+    					((uint32)ucRed << RED_LEFTSHIFT) |
  8000406:	79bb      	ldrb	r3, [r7, #6]
  8000408:	021b      	lsls	r3, r3, #8
+    uint32 ulColor = (((uint32)ucGreen << GREEN_LEFTSHIFT) |
  800040a:	431a      	orrs	r2, r3
+    					((uint32)ucRed << RED_LEFTSHIFT) |
  800040c:	797b      	ldrb	r3, [r7, #5]
+    uint32 ulColor = (((uint32)ucGreen << GREEN_LEFTSHIFT) |
  800040e:	4313      	orrs	r3, r2
  8000410:	60bb      	str	r3, [r7, #8]
+						ucBlue);
     uint8 ucIndex = 0;
  8000412:	2300      	movs	r3, #0
  8000414:	73fb      	strb	r3, [r7, #15]
@@ -558,7 +563,7 @@ void WS2811PrepareBuffer(uint8 ucGreen, uint8 ucRed, uint8 ucBlue)
  8000456:	73fb      	strb	r3, [r7, #15]
  8000458:	e008      	b.n	800046c <WS2811PrepareBuffer+0x7c>
     {
-    	unWS2811DMABuffer[24 + ucIndex] = 0;
+    	unWS2811DMABuffer[WS2811_BITS_PER_LED + ucIndex] = 0;
  800045a:	7bfb      	ldrb	r3, [r7, #15]
  800045c:	3318      	adds	r3, #24
  800045e:	4a08      	ldr	r2, [pc, #32]	@ (8000480 <WS2811PrepareBuffer+0x90>)

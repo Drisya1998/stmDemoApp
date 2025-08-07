@@ -73,7 +73,7 @@ typedef struct _DMA_CHANNEL_REGISTERS_
 
 #define WS2811_0  					22
 #define WS2811_1  					45
-#define WS2811_RESET_LENGTH  		50  // Send at least 50µs of low signal
+#define WS2811_RESET_LENGTH  		50
 #define WS2811_BITS_PER_LED 		24
 #define GREEN_LEFTSHIFT				16
 #define RED_LEFTSHIFT				8
