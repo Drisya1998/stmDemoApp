@@ -1,0 +1,7 @@
+../Core/Src/Reciever/RecieverTask.c:48:6:RecieverTask	13
+../Core/Src/Reciever/RecieverTask.c:110:13:ReceiverTaskSetAckMsg	2
+../Core/Src/Reciever/RecieverTask.c:134:13:RecieverTaskProcessRequest	5
+../Core/Src/Reciever/RecieverTask.c:175:13:RecieverTaskProcessUID	2
+../Core/Src/Reciever/RecieverTask.c:195:13:RecieverTaskProcessCMD	5
+../Core/Src/Reciever/RecieverTask.c:237:13:RecieverTaskProcessDATA	2
+../Core/Src/Reciever/RecieverTask.c:257:13:RecieverTaskBuildLoggerMsg	2

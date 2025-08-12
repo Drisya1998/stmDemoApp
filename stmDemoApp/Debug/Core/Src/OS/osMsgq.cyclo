@@ -1,0 +1,15 @@
+../Core/Src/OS/osMsgq.c:44:6:osMsgqPollerToRecieverInit	2
+../Core/Src/OS/osMsgq.c:65:6:osMsgqRecieverToPollerInit	2
+../Core/Src/OS/osMsgq.c:86:6:osMsgqMessageSendToReceiver	2
+../Core/Src/OS/osMsgq.c:106:6:osMsgqMessageRcvFromPoller	3
+../Core/Src/OS/osMsgq.c:129:6:osMsgqMessageSendToPoller	2
+../Core/Src/OS/osMsgq.c:149:6:osMsgqMessageRcvFromReceiver	3
+../Core/Src/OS/osMsgq.c:172:6:osMsgqWatchdogInit	2
+../Core/Src/OS/osMsgq.c:193:6:osMsgqSendToWatchdog	2
+../Core/Src/OS/osMsgq.c:212:6:osMsgqRcvFromWatchdog	3
+../Core/Src/OS/osMsgq.c:235:6:osMsgqReceiverToLoggerInit	2
+../Core/Src/OS/osMsgq.c:256:6:osMsgqLoggerToReceiverInit	2
+../Core/Src/OS/osMsgq.c:277:6:osMsgqMessageSendToLogger	2
+../Core/Src/OS/osMsgq.c:297:6:osMsgqMsgRcvFromReceiver	3
+../Core/Src/OS/osMsgq.c:320:6:osMsgqMsgSendToReceiver	2
+../Core/Src/OS/osMsgq.c:340:6:osMsgqMessageRcvFromLogger	3
